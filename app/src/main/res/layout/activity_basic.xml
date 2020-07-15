@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+
+    <FrameLayout
+        android:id="@+id/frame"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="15"
+        android:background="@color/darkgray">
+
+        <!-- 搜索按钮，点击弹出搜索框以便快速搜索本地表情包 -->
+        <!-- 采用floatingactionbutton控件-->
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/fab_margin"
+            android:scaleType="center"
+            android:src="@drawable/tab_search"
+            app:backgroundTint="@color/whitesmoke"
+            app:rippleColor="@color/black" />
+    </FrameLayout>
+    <!-- 三个并列的imageButton，分别代表社区，本地表情包管理与设置-->
+    <LinearLayout
+        android:layout_weight="1.5"
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        android:layout_gravity="bottom"
+        android:layout_height="0dp">
+
+        <ImageButton
+            android:id="@+id/Social"
+            android:layout_width="133dp"
+            android:layout_height="match_parent"
+            android:background="#00FF0000"
+            android:layout_weight="1"
+            android:scaleType="centerCrop"
+            android:padding="40dp"
+            android:src="@drawable/tab_social" />
+
+        <ImageButton
+            android:id="@+id/User"
+            android:layout_width="133dp"
+            android:layout_height="match_parent"
+            android:background="#00FF0000"
+            android:scaleType="centerCrop"
+            android:layout_weight="1"
+            android:padding="40dp"
+            android:src="@drawable/tab_user" />
+
+        <ImageButton
+            android:id="@+id/Settings"
+            android:layout_width="133dp"
+            android:padding="40dp"
+            android:layout_height="match_parent"
+            android:background="#00FF0000"
+            android:layout_weight="1"
+            android:scaleType="centerCrop"
+            android:src="@drawable/tab_setting" />
+
+    </LinearLayout>
+
+
+</LinearLayout>
+
+
+
+
+
+
+
+
+
+
+
+
