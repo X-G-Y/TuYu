@@ -1,2 +1,3 @@
+include ':EditText'
 rootProject.name='Start'
 include ':app'

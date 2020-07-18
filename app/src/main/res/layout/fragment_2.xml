@@ -1,29 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- 对应Fragment2(User)-->
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Fragment2"
     android:background="@color/darkgray">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="蒋晨阳" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        android:scaleType="center"
-        android:src="@drawable/tab_search"
-        app:backgroundTint="@color/darkgray"
-        app:rippleColor="@color/black" />
+        android:layout_height="0dp"
+        android:layout_weight="1.5"
+        android:orientation="horizontal">
 
 
-</FrameLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="15">
+
+    </LinearLayout>
+
+
+</LinearLayout>

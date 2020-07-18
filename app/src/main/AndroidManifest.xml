@@ -1,20 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- 第一个APP -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.start">
     <!-- 访问网络权限声明-->
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <!-- <uses-permission android:name="android.permission.INTERNET"/> -->
     <!-- APP名称暂且定为“图遇”，意思是遇到更多有趣的表情包^^-->
     <!-- logo未定-->
     <!-- basic Activity 是主活动-->
     <application
+
+
         android:allowBackup="true"
+
 
         android:icon="@mipmap/ic_launcher"
         android:label="图遇"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        tools:replace="android:label"
+        >
         <activity
             android:name=".basic"
             android:label="@string/title_activity_basic"

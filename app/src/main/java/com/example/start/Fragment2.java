@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 
 /**
  * Fragment2对应本地管理界面
@@ -51,6 +53,13 @@ public class Fragment2 extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+    }
+    //引用Fragment布局中的控件
+    //在onCreate方法中无法使用findViewById方法，考虑在onStart中重写
+    @Override
+    public void onStart(){
+        super.onStart();
+
     }
 
     @Override

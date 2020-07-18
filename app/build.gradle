@@ -2,11 +2,11 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 29
-    buildToolsVersion "29.0.2"
+    buildToolsVersion '29.0.2'
 
     defaultConfig {
         applicationId "com.example.start"
-        minSdkVersion 15
+        minSdkVersion 19
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -42,16 +42,23 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    implementation 'com.android.support:appcompat-v7'
+
+
+
 
     //添加对recycleView的支持
     //noinspection GradleCompatible
-    implementation 'com.android.support:recyclerview-v7:24.2.1'
+    //implementation 'com.android.support:recyclerview-v7:24.2.1'
 
     //添加对Tesseract Android的支持,主库是tess-two:9.0.0
-    implementation 'com.jakewharton:butterknife:8.8.1'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    //implementation 'com.jakewharton:butterknife:8.8.1'
+    //annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 
-    implementation 'com.rmtheis:tess-two:9.0.0'
+    //implementation 'com.rmtheis:tess-two:9.0.0'
+
+
+
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
