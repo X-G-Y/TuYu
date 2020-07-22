@@ -15,6 +15,7 @@
         android:background="@color/darkgray">
 
 
+
     </FrameLayout>
     <!-- 三个并列的imageButton，从前到后分别代表社区(Society)，本地表情包管理(User)与设置(Settings)-->
     <LinearLayout

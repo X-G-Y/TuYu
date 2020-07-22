@@ -12,6 +12,8 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
+    <!-- 不含Action的格式-->
+    <style name="AppCompatTheme" parent="Theme.AppCompat.Light.NoActionBar"  />
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 

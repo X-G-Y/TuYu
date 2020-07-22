@@ -1,33 +1,21 @@
 package com.example.start;
 
-import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.ImageButton;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
-import androidx.annotation.LongDef;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.util.Log;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
-import android.widget.ListView;
-
-import java.util.ArrayList;
-import java.util.List;
+import static com.example.start.R.layout.activity_basic;
 
 //这是主界面
 //BlandFragment对应社区界面
 //Fragment2对应本地管理界面
 //Fragment3对应设置界面
-
-import static com.example.start.R.layout.activity_basic;
 
 public class basic extends AppCompatActivity implements View.OnClickListener{
 
