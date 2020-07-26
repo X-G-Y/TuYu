@@ -8,10 +8,7 @@
     android:orientation="vertical"
 
     tools:context=".Fragment2"
-    android:background="@color/darkgray"
     >
-
-
 
     <!-- TODO: Update blank fragment layout -->
 
@@ -31,9 +28,45 @@
             android:background="@color/white"
             android:padding="10dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/tab_search">
+            android:src="@drawable/findview">
 
         </ImageButton>
+
+        <ImageButton
+            android:id="@+id/UserSpace"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:padding="10dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/userspace">
+
+        </ImageButton>
+
+        <ImageButton
+            android:id="@+id/UserStar"
+            android:layout_width="50dp"
+            android:layout_toLeftOf="@id/UserDownload"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:padding="10dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/starpng">
+
+        </ImageButton>
+
+        <ImageButton
+            android:id="@+id/UserDownload"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@id/Search"
+            android:background="@color/white"
+            android:padding="10dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/download">
+
+        </ImageButton>
+
 
     </RelativeLayout>
 
@@ -42,7 +75,26 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="15">
+        android:layout_weight="15"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp">
+
+            <ImageButton
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="17dp"
+                android:background="@color/white"
+                android:scaleType="centerCrop"
+                android:src="@drawable/addmanger"
+                android:id="@+id/AddManger">
+
+            </ImageButton>
+        </RelativeLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerview"
@@ -50,7 +102,16 @@
             android:layout_height="match_parent">
 
 
+
         </androidx.recyclerview.widget.RecyclerView>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floatingActionButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:src="@drawable/findview"
+            android:focusable="true" />
 
     </LinearLayout>
 

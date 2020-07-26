@@ -15,7 +15,7 @@ public class SearchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
-        Toolbar toolbarr = (Toolbar)findViewById(R.id.toolbarr);
+        Toolbar toolbarr = findViewById(R.id.toolbarr);
         setSupportActionBar(toolbarr);
         ActionBar back = getSupportActionBar();
         assert back != null;
@@ -39,7 +39,6 @@ public class SearchActivity extends AppCompatActivity {
                 // User chose the "Settings" item, show the app settings UI...
                 return true;
 
-
             default:
                 // If we got here, the user's action was not recognized.
                 // Invoke the superclass to handle it.
@@ -47,4 +46,5 @@ public class SearchActivity extends AppCompatActivity {
 
         }
     }
+
 }

@@ -7,14 +7,15 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Fragment3"
-    android:background="@color/darkgray">
+    android:background="@color/white">
 
     <!-- TODO: Update blank fragment layout -->
 
     <ListView
         android:id="@android:id/list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:background="@color/white"/>
 
 
 </LinearLayout>
