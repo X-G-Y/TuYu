@@ -3,6 +3,7 @@ package com.example.start;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,9 @@ import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.LiveData;
+import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,16 +25,31 @@ import java.util.List;
  * Fragment2对应本地管理界面
  */
 public class Fragment2 extends Fragment {
+
+    @NonNull
+    @Override
+    public LiveData<LifecycleOwner> getViewLifecycleOwnerLiveData() {
+        return super.getViewLifecycleOwnerLiveData();
+    }
+    //动态循环视图对象
+    private RecyclerView recyclerView_dynamic;
+    private int position = 3;  //定义新建item位置
     boolean ifstart = true;
-    private List<DocumentManger> list = new ArrayList<>();
+    private View view;
+    private ImageButton imageButton;
+    private ImageButton addManger;
+    private DocumentManger doc = new DocumentManger("新建分类", R.drawable.documentpng);
+    //线性适配器对象
+    private MyRecyclerviewAdapter myRecyclerviewAdapter;
+    //当前队列
+    private List<DocumentManger> listNow = new ArrayList<>();
+    //所有队列
+    private List<DocumentManger> listAll = new ArrayList<>();
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    GridLayoutManager layoutManager;
-    MyRecyclerviewAdapter myRecyclerviewAdapter;
-    RecyclerView recyclerView;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -61,8 +80,6 @@ public class Fragment2 extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
-
 
 
 
@@ -79,55 +96,9 @@ public class Fragment2 extends Fragment {
     @Override
     public void onStart(){
         super.onStart();
-        //getActivity().setContentView(R.layout.picture);
-        //判断是否已经进行过一次初始化
-        if(ifstart){
-            //添加recyclerview控件
-            init();
-            RecyclerView recyclerView = getActivity().findViewById(R.id.recyclerview);
-            GridLayoutManager layoutManager = new GridLayoutManager(getActivity(),3);
-            MyRecyclerviewAdapter myRecyclerviewAdapter = new MyRecyclerviewAdapter(list);
-            //设置布局管理器
-            recyclerView.setLayoutManager(layoutManager);
-            //设置适配器
-            recyclerView.setAdapter(myRecyclerviewAdapter);
-        }
-
-
-        ifstart = false;
-
-        //添加分类按钮
-        ImageButton addmanger = getActivity().findViewById((R.id.AddManger));
-        addmanger.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DocumentManger newone = new DocumentManger("新建分类", R.drawable.documentpng);
-                list.add(newone);
-            }
-        });
-        //搜索按钮
-        ImageButton imageButton = getActivity().findViewById(R.id.Search);
-        imageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), SearchActivity.class);
-                startActivity(intent);
-            }
-        });
-
-
 
     }
 
-    private void init(){
-        //熊猫头，小鹦鹉，滑稽脸
-        DocumentManger Panda = new DocumentManger("熊猫头", R.drawable.documentpng);
-        list.add(Panda);
-        DocumentManger parrot = new DocumentManger("小鹦鹉", R.drawable.documentpng);
-        list.add(parrot);
-        DocumentManger comical = new DocumentManger("滑稽", R.drawable.documentpng);
-        list.add(comical);
-    }
 
 
 
@@ -145,9 +116,54 @@ public class Fragment2 extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_2, container, false);
+        view = inflater.inflate(R.layout.fragment_2, container, false);
+        //搜索按钮
+        imageButton = (ImageButton) view.findViewById(R.id.Search);
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                Log.e(getTag(), "onClick: ");
+                Intent intent = new Intent(getActivity(), SearchActivity.class);
+                startActivity(intent);
+
+            }
+        });
+        //新建分类按钮
+        addManger = (ImageButton)view.findViewById(R.id.AddManger);
+        addManger.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listAll.add(doc);
+                myRecyclerviewAdapter.notifyItemInserted(myRecyclerviewAdapter.getItemCount());
+                recyclerView_dynamic.scrollToPosition(myRecyclerviewAdapter.getItemCount());
+            }
+        });
+        recyclerView_dynamic = view.findViewById(R.id.recyclerview);
+
+        init();
+        return view;
     }
 
+    private void init(){
+        //创建一个网格视图管理器
+        GridLayoutManager manager = new GridLayoutManager(
+                getActivity(), 3
+        );
+        //设置管理器
+        recyclerView_dynamic.setLayoutManager(manager);
+        //初始创建熊猫头，小鹦鹉，滑稽脸，可以动态刷新
+        DocumentManger Panda = new DocumentManger("熊猫头", R.drawable.documentpng);
+        listAll.add(Panda);
+        DocumentManger parrot = new DocumentManger("小鹦鹉", R.drawable.documentpng);
+        listAll.add(parrot);
+        DocumentManger comical = new DocumentManger("滑稽", R.drawable.documentpng);
+        listAll.add(comical);
+        myRecyclerviewAdapter = new MyRecyclerviewAdapter(listAll);
+        recyclerView_dynamic.setAdapter(myRecyclerviewAdapter);
+        //设置默认动画效果
+        recyclerView_dynamic.setItemAnimator(new DefaultItemAnimator());
+
+    }
 
 
 

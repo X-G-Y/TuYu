@@ -12,6 +12,10 @@ import java.util.List;
 
 class MyRecyclerviewAdapter extends RecyclerView.Adapter<MyRecyclerviewAdapter.ViewHolder> {
 
+    private List<DocumentManger> list_request;    //数据源
+    private int position;
+
+
 
     //初始化item对象
     static class ViewHolder extends RecyclerView.ViewHolder {
@@ -26,6 +30,7 @@ class MyRecyclerviewAdapter extends RecyclerView.Adapter<MyRecyclerviewAdapter.V
         }
     }
 
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -36,16 +41,17 @@ class MyRecyclerviewAdapter extends RecyclerView.Adapter<MyRecyclerviewAdapter.V
 
 
 
-    private List<DocumentManger> list_request;    //数据源
     //获取list数量大小，在adapter的构造方法里传入需要的数据源，之后返回大小
     public MyRecyclerviewAdapter(List<DocumentManger> list_request) {
         this.list_request = list_request;
     }
 
+    //获取List大小
     public int getItemCount() {
         return list_request == null ? 0 : list_request.size();
     }
-
+    //获取列表项的编号
+    public long getItemID(int position) { return position;}
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
@@ -57,3 +63,5 @@ class MyRecyclerviewAdapter extends RecyclerView.Adapter<MyRecyclerviewAdapter.V
 
 
 }
+
+

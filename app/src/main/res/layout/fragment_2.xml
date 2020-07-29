@@ -81,17 +81,17 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="30dp">
+            android:layout_height="50dp">
 
             <ImageButton
+                android:id="@+id/AddManger"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="17dp"
+                android:layout_marginRight="15dp"
                 android:background="@color/white"
                 android:scaleType="centerCrop"
-                android:src="@drawable/addmanger"
-                android:id="@+id/AddManger">
+                android:src="@drawable/addmanger">
 
             </ImageButton>
         </RelativeLayout>
