@@ -19,11 +19,13 @@ import static com.example.start.R.layout.activity_basic;
 
 public class basic extends AppCompatActivity implements View.OnClickListener{
 
-
+    //用于非主线程中
+    public static basic myActivity;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(activity_basic);
+        myActivity = this;
 
 
         //打印日志

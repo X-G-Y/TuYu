@@ -51,9 +51,13 @@ public class Fragment2 extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
 
+
+
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+
 
     public Fragment2() {
         // Required empty public constructor
@@ -80,6 +84,7 @@ public class Fragment2 extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
 
 
 
@@ -116,9 +121,17 @@ public class Fragment2 extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
         view = inflater.inflate(R.layout.fragment_2, container, false);
         //搜索按钮
         imageButton = (ImageButton) view.findViewById(R.id.Search);
+
+        //新建分类按钮
+        addManger = (ImageButton)view.findViewById(R.id.AddManger);
+
+        //获取recyclerview
+        recyclerView_dynamic = view.findViewById(R.id.recyclerview);
+
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
@@ -128,8 +141,7 @@ public class Fragment2 extends Fragment {
 
             }
         });
-        //新建分类按钮
-        addManger = (ImageButton)view.findViewById(R.id.AddManger);
+
         addManger.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -138,9 +150,10 @@ public class Fragment2 extends Fragment {
                 recyclerView_dynamic.scrollToPosition(myRecyclerviewAdapter.getItemCount());
             }
         });
-        recyclerView_dynamic = view.findViewById(R.id.recyclerview);
 
+        //初始化recyclerview
         init();
+
         return view;
     }
 
@@ -165,7 +178,16 @@ public class Fragment2 extends Fragment {
 
     }
 
+    //自定义recyclerview的点击事件接口
+    public interface OnRecyclerViewItemClickListener {
+        void onItemClick(View view ,int position);
+    }
 
+    @Override
+    public void onPause() {
+        // TODO Auto-generated method stub
+        super.onPause();
+    }
 
 
 

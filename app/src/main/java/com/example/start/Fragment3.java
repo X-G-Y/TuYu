@@ -1,14 +1,13 @@
 package com.example.start;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.ListFragment;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+
+import androidx.fragment.app.ListFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +32,8 @@ public class Fragment3 extends ListFragment {
     private String TAG = Fragment3.class.getName();
 
 
-
+    private View view;
+    private ArrayAdapter<String> adapter;
 
 
 
@@ -84,13 +84,13 @@ public class Fragment3 extends ListFragment {
         data.add("OCR识别语言");
         //可以让我先当一段时间客服
         data.add("联系客服");
-        //应包含版本号，检查更新，评价等
+        //版本号与更新
         data.add("关于图遇");
         //如题
         data.add("退出登陆");
 
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this.getActivity(),   android.R.layout.simple_list_item_1,
+        adapter = new ArrayAdapter<String>(this.getActivity(),   android.R.layout.simple_list_item_1,
                data);
         //添加适配器
         setListAdapter(adapter);

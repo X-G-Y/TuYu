@@ -4,12 +4,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+
+/*  对于recyclerview重写的的适配器类*/
 class MyRecyclerviewAdapter extends RecyclerView.Adapter<MyRecyclerviewAdapter.ViewHolder> {
 
     private List<DocumentManger> list_request;    //数据源
@@ -25,6 +28,7 @@ class MyRecyclerviewAdapter extends RecyclerView.Adapter<MyRecyclerviewAdapter.V
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+
             textView = itemView.findViewById(R.id.item_name);
             ImageButton = itemView.findViewById(R.id.item_picture);
         }
@@ -54,10 +58,16 @@ class MyRecyclerviewAdapter extends RecyclerView.Adapter<MyRecyclerviewAdapter.V
     public long getItemID(int position) { return position;}
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         DocumentManger picture = list_request.get(position);
         holder.ImageButton.setImageResource(picture.getImageID());
         holder.textView.setText(picture.getName());
+        holder.ImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(basic.myActivity, position + "", 1000).show();
+            }
+        });
     }
 
 

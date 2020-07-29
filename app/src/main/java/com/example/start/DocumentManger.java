@@ -1,5 +1,8 @@
 package com.example.start;
 
+
+/*     用来填充适配器的文档类  */
+/*     含一张图片和分类对应的名字 */
 public class DocumentManger {
 
     private  String name;
