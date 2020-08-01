@@ -13,11 +13,16 @@ import java.util.List;
 
 
 /*  对于recyclerview重写的的适配器类*/
-class MyRecyclerviewAdapter extends RecyclerView.Adapter<MyRecyclerviewAdapter.ViewHolder> {
+class MyRecyclerviewAdapter extends RecyclerView.Adapter<MyRecyclerviewAdapter.ViewHolder> implements View.OnLongClickListener {
 
     private List<DocumentManger> list_request;    //数据源
     private int position;
+    private RecyclerViewOnItemLongClickListener onItemLongClickListener;
 
+    @Override
+    public boolean onLongClick(View v) {
+        return false;
+    }
 
 
     //初始化item对象
@@ -40,6 +45,7 @@ class MyRecyclerviewAdapter extends RecyclerView.Adapter<MyRecyclerviewAdapter.V
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         //将item对象传入到view中
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.picture,parent,false);
+        view.setOnLongClickListener(this);
         return new ViewHolder(view);
     }
 
@@ -68,10 +74,25 @@ class MyRecyclerviewAdapter extends RecyclerView.Adapter<MyRecyclerviewAdapter.V
                 Toast.makeText(basic.myActivity, position + "", 1000).show();
             }
         });
+        holder.ImageButton.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Toast.makeText(basic.myActivity, position + "Long", 1000).show();
+                return true;
+            }
+        });
     }
 
 
+    /*设置长按事件*/
+    public void setOnItemLongClickListener(RecyclerViewOnItemLongClickListener onItemLongClickListener) {
+        this.onItemLongClickListener = onItemLongClickListener;
+    }
+    //长按事件
+    public interface RecyclerViewOnItemLongClickListener {
+
+        boolean onItemLongClickListener(View view, int position);
+
+    }
 
 }
-
-

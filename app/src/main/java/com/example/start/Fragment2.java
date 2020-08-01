@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -17,6 +18,8 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +27,7 @@ import java.util.List;
 /**
  * Fragment2对应本地管理界面
  */
-public class Fragment2 extends Fragment {
+public class Fragment2 extends Fragment implements MyRecyclerviewAdapter.RecyclerViewOnItemLongClickListener {
 
     @NonNull
     @Override
@@ -153,6 +156,14 @@ public class Fragment2 extends Fragment {
 
         //初始化recyclerview
         init();
+        //设置RecyclerView的每一项的长按事件
+        myRecyclerviewAdapter.setOnItemLongClickListener(new MyRecyclerviewAdapter.RecyclerViewOnItemLongClickListener() {
+            public boolean onItemLongClickListener(View view, int position) {
+                Snackbar.make(view, "长按事件：" + listAll.get(position), Snackbar.LENGTH_SHORT).show();
+                Toast.makeText(basic.myActivity, position + "xgy", 300).show();
+                return true;
+            }
+        });
 
         return view;
     }
@@ -178,10 +189,6 @@ public class Fragment2 extends Fragment {
 
     }
 
-    //自定义recyclerview的点击事件接口
-    public interface OnRecyclerViewItemClickListener {
-        void onItemClick(View view ,int position);
-    }
 
     @Override
     public void onPause() {
@@ -190,6 +197,8 @@ public class Fragment2 extends Fragment {
     }
 
 
-
-
+    @Override
+    public boolean onItemLongClickListener(View view, int position) {
+        return false;
+    }
 }
