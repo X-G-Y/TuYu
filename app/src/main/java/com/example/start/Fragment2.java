@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +29,8 @@ import com.google.android.material.snackbar.Snackbar;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.sql.Types.NULL;
+
 
 /**
  * Fragment2对应本地管理界面
@@ -38,6 +42,10 @@ public class Fragment2 extends Fragment implements MyRecyclerviewAdapter.Recycle
     public LiveData<LifecycleOwner> getViewLifecycleOwnerLiveData() {
         return super.getViewLifecycleOwnerLiveData();
     }
+    //如果用户第一次输入什么也没有输入
+    private boolean editTextIsEmpty = false;
+    //判断用户新建分类命名是否存在
+    private boolean ifExact = false;
     //对话框
     private AlertDialog.Builder builder;
     //动态循环视图对象
@@ -214,16 +222,34 @@ public class Fragment2 extends Fragment implements MyRecyclerviewAdapter.Recycle
         return false;
     }
 
+    //点击添加分类之后出现的对话框，左按钮是确定，右按钮是取消，
     private void showDialog() {
         final EditText editText = new EditText(getActivity());
+        //设置对空格的过滤器
+        editText.setFilters(new InputFilter[]{new SpaceFilter()});
         builder = new AlertDialog.Builder(getActivity()).setTitle("输入分类名称").setView(editText)
                 .setNegativeButton("确认", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Toast.makeText(basic.myActivity, "输入内容为：" + editText.getText().toString()
-                                , Toast.LENGTH_LONG).show();
-                        doc = new DocumentManger(editText.getText().toString(), R.drawable.documentpng);
-                        newManger();
+                        //先判断命名是否已经存在
+                        //小彩蛋
+                        if(editText.getText().length() == 0 && !editTextIsEmpty){
+                            doc = new DocumentManger("我叫没名字", R.drawable.documentpng);
+                            newManger();
+                            editTextIsEmpty = true;
+                        }
+                        else if (editText.getText().length() == 0 && editTextIsEmpty){
+                            //期望是dialog的动态刷新，目前以Toast的方式提示用户
+                            Toast.makeText(basic.myActivity, "呐，才不要什么都不输入呢！", Toast.LENGTH_LONG).show();
+                            Toast.makeText(basic.myActivity, "就算是输入空格也没有用的呢",Toast.LENGTH_LONG).show();
+                        }
+                        else if (IsExact(editText)){
+                            Toast.makeText(basic.myActivity, "分类已存在",Toast.LENGTH_LONG).show();
+                        }
+                        else{
+                            doc = new DocumentManger(editText.getText().toString(), R.drawable.documentpng);
+                            newManger();
+                        }
                     }
                 });
         builder
@@ -234,5 +260,33 @@ public class Fragment2 extends Fragment implements MyRecyclerviewAdapter.Recycle
                     }
                 });
         builder.create().show();
+
+    }
+
+    /**
+     * 禁止输入空格
+     *
+     * @return
+     */
+    public class  SpaceFilter implements InputFilter {
+        @Override
+        public String filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+            //返回null表示接收输入的字符,返回空字符串表示不接受输入的字符
+            if (source.equals(" "))
+                return "";
+            return null;
+        }
+    }
+
+    //判断用户输入的新分类名是否已经存在
+    public boolean IsExact(EditText editText){
+        ifExact = false;
+        for(int i = 0;i < listAll.size();i++){
+            if(listAll.get(i).getName().equals(editText.getText().toString())) {
+                ifExact = true;
+                break;
+            }
+        }
+        return ifExact;
     }
 }
