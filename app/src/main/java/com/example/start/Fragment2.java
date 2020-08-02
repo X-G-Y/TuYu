@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
@@ -40,7 +41,7 @@ public class Fragment2 extends Fragment implements MyRecyclerviewAdapter.Recycle
     boolean ifstart = true;
     private View view;
     private ImageButton imageButton;
-    private ImageButton addManger;
+    private FloatingActionButton addManger;
     private DocumentManger doc = new DocumentManger("新建分类", R.drawable.documentpng);
     //线性适配器对象
     private MyRecyclerviewAdapter myRecyclerviewAdapter;
@@ -130,7 +131,7 @@ public class Fragment2 extends Fragment implements MyRecyclerviewAdapter.Recycle
         imageButton = (ImageButton) view.findViewById(R.id.Search);
 
         //新建分类按钮
-        addManger = (ImageButton)view.findViewById(R.id.AddManger);
+        addManger = (FloatingActionButton)view.findViewById(R.id.fab);
 
         //获取recyclerview
         recyclerView_dynamic = view.findViewById(R.id.recyclerview);
@@ -148,6 +149,7 @@ public class Fragment2 extends Fragment implements MyRecyclerviewAdapter.Recycle
         addManger.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Toast.makeText(basic.myActivity, "新建分类", 1000).show();
                 listAll.add(doc);
                 myRecyclerviewAdapter.notifyItemInserted(myRecyclerviewAdapter.getItemCount());
                 recyclerView_dynamic.scrollToPosition(myRecyclerviewAdapter.getItemCount());

@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent"
     android:orientation="vertical"
-
+    android:descendantFocusability="blocksDescendants"
     tools:context=".Fragment2"
     >
 
@@ -16,16 +16,18 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1.2"
-        android:orientation="horizontal"
-        android:background="@color/white">
+        android:alpha="1"
+        android:background="@color/unknow"
+        android:orientation="horizontal">
 
 
         <ImageButton
             android:id="@+id/Search"
             android:layout_width="50dp"
-            android:layout_alignParentRight="true"
+            android:alpha="1"
             android:layout_height="match_parent"
-            android:background="@color/white"
+            android:layout_alignParentRight="true"
+            android:background="@color/unknow"
             android:padding="10dp"
             android:scaleType="centerCrop"
             android:src="@drawable/findview">
@@ -34,9 +36,10 @@
 
         <ImageButton
             android:id="@+id/UserSpace"
+            android:alpha="1"
             android:layout_width="50dp"
             android:layout_height="match_parent"
-            android:background="@color/white"
+            android:background="@color/unknow"
             android:padding="10dp"
             android:scaleType="centerCrop"
             android:src="@drawable/userspace">
@@ -46,9 +49,10 @@
         <ImageButton
             android:id="@+id/UserStar"
             android:layout_width="50dp"
-            android:layout_toLeftOf="@id/UserDownload"
             android:layout_height="match_parent"
-            android:background="@color/white"
+            android:alpha="1"
+            android:layout_toLeftOf="@id/UserDownload"
+            android:background="@color/unknow"
             android:padding="10dp"
             android:scaleType="centerCrop"
             android:src="@drawable/starpng">
@@ -58,9 +62,10 @@
         <ImageButton
             android:id="@+id/UserDownload"
             android:layout_width="50dp"
+            android:alpha="1"
             android:layout_height="match_parent"
             android:layout_toLeftOf="@id/Search"
-            android:background="@color/white"
+            android:background="@color/unknow"
             android:padding="10dp"
             android:scaleType="centerCrop"
             android:src="@drawable/download">
@@ -70,31 +75,18 @@
 
     </RelativeLayout>
 
-
-
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="15dp"/>
+
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="15"
         android:background="@color/white"
         android:orientation="vertical">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp">
 
-            <ImageButton
-                android:id="@+id/AddManger"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="15dp"
-                android:background="@color/white"
-                android:scaleType="centerCrop"
-                android:src="@drawable/addmanger">
-
-            </ImageButton>
-        </RelativeLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerview"
@@ -102,18 +94,21 @@
             android:layout_height="match_parent">
 
 
-
         </androidx.recyclerview.widget.RecyclerView>
 
+
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/floatingActionButton"
+            android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:clickable="true"
-            android:src="@drawable/findview"
-            android:focusable="true" />
+            android:layout_gravity="bottom|end"
+            app:backgroundTint="@color/white"
+            android:layout_margin="@dimen/fab_margin"
+            android:src="@drawable/addicon"/>
 
-    </LinearLayout>
+
+
+    </FrameLayout>
 
 
 </LinearLayout>

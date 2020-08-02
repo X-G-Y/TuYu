@@ -5,19 +5,16 @@
 
     <application
         android:allowBackup="true"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         android:icon="@drawable/icon"
         android:label="图遇"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         tools:replace="android:label">
-        <!-- SearchActivity是点击搜索按钮之后显示的搜索界面，它的父ParentActivity是basic-->
+        <!-- SearchActivity是点击搜索按钮之后显示的搜索界面，它的父ParentActivity是basic -->
         <activity
             android:name=".SearchActivity"
-            android:parentActivityName="com.example.start.basic">
-
-        </activity>
-
+            android:parentActivityName=".basic"></activity>
         <activity
             android:name=".basic"
             android:label="@string/title_activity_basic"

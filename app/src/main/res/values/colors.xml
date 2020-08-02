@@ -150,4 +150,5 @@
     <color name="darkblue">#00008b</color><!--暗蓝色 -->
     <color name="navy">#000080</color><!--海军色 -->
     <color name="black">#000000</color><!--黑色 -->
+    <color name="unknow">#0D1E1C1C</color><!-- 淡淡淡灰-->
 </resources>
