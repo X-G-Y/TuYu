@@ -1,16 +1,19 @@
 package com.example.start;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
@@ -35,6 +38,8 @@ public class Fragment2 extends Fragment implements MyRecyclerviewAdapter.Recycle
     public LiveData<LifecycleOwner> getViewLifecycleOwnerLiveData() {
         return super.getViewLifecycleOwnerLiveData();
     }
+    //对话框
+    private AlertDialog.Builder builder;
     //动态循环视图对象
     private RecyclerView recyclerView_dynamic;
     private int position = 3;  //定义新建item位置
@@ -150,9 +155,7 @@ public class Fragment2 extends Fragment implements MyRecyclerviewAdapter.Recycle
             @Override
             public void onClick(View v) {
                 Toast.makeText(basic.myActivity, "新建分类", 1000).show();
-                listAll.add(doc);
-                myRecyclerviewAdapter.notifyItemInserted(myRecyclerviewAdapter.getItemCount());
-                recyclerView_dynamic.scrollToPosition(myRecyclerviewAdapter.getItemCount());
+                showDialog();
             }
         });
 
@@ -170,6 +173,13 @@ public class Fragment2 extends Fragment implements MyRecyclerviewAdapter.Recycle
         return view;
     }
 
+
+    //新建一个分类
+    private void newManger(){
+        listAll.add(doc);
+        myRecyclerviewAdapter.notifyItemInserted(myRecyclerviewAdapter.getItemCount());
+        recyclerView_dynamic.scrollToPosition(myRecyclerviewAdapter.getItemCount());
+    }
     private void init(){
         //创建一个网格视图管理器
         GridLayoutManager manager = new GridLayoutManager(
@@ -202,5 +212,27 @@ public class Fragment2 extends Fragment implements MyRecyclerviewAdapter.Recycle
     @Override
     public boolean onItemLongClickListener(View view, int position) {
         return false;
+    }
+
+    private void showDialog() {
+        final EditText editText = new EditText(getActivity());
+        builder = new AlertDialog.Builder(getActivity()).setTitle("输入分类名称").setView(editText)
+                .setNegativeButton("确认", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Toast.makeText(basic.myActivity, "输入内容为：" + editText.getText().toString()
+                                , Toast.LENGTH_LONG).show();
+                        doc = new DocumentManger(editText.getText().toString(), R.drawable.documentpng);
+                        newManger();
+                    }
+                });
+        builder
+                .setPositiveButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(basic.myActivity, "已取消",Toast.LENGTH_LONG).show();
+                    }
+                });
+        builder.create().show();
     }
 }
