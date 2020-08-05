@@ -17,7 +17,7 @@ class MyRecyclerviewAdapter extends RecyclerView.Adapter<MyRecyclerviewAdapter.V
 
     private List<DocumentManger> list_request;    //数据源
     private int position;
-    private RecyclerViewOnItemLongClickListener onItemLongClickListener;
+    private OnItemLongClickListener onItemLongClickListener;
 
     @Override
     public boolean onLongClick(View v) {
@@ -51,6 +51,16 @@ class MyRecyclerviewAdapter extends RecyclerView.Adapter<MyRecyclerviewAdapter.V
 
 
 
+    //setOnItemLongClickListener 接口
+    public interface OnItemLongClickListener{
+        void onItemLongClick(View view,int position);
+    }
+
+    public void setOnItemLongClickListener(OnItemLongClickListener mOnItemLongClickListener) {
+        this.onItemLongClickListener = mOnItemLongClickListener;
+    }
+
+
     //获取list数量大小，在adapter的构造方法里传入需要的数据源，之后返回大小
     public MyRecyclerviewAdapter(List<DocumentManger> list_request) {
         this.list_request = list_request;
@@ -64,35 +74,38 @@ class MyRecyclerviewAdapter extends RecyclerView.Adapter<MyRecyclerviewAdapter.V
     public long getItemID(int position) { return position;}
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         DocumentManger picture = list_request.get(position);
         holder.ImageButton.setImageResource(picture.getImageID());
         holder.textView.setText(picture.getName());
         holder.ImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(basic.myActivity, position + "", 1000).show();
+                Toast.makeText(basic.myActivity, position + "", Toast.LENGTH_SHORT).show();
             }
         });
         holder.ImageButton.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                Toast.makeText(basic.myActivity, position + "Long", 1000).show();
+                int position = holder.getLayoutPosition();
+                onItemLongClickListener.onItemLongClick(holder.itemView, position);
+                Toast.makeText(basic.myActivity, position + "Long", Toast.LENGTH_SHORT).show();
                 return true;
             }
         });
+
+
     }
 
 
-    /*设置长按事件*/
-    public void setOnItemLongClickListener(RecyclerViewOnItemLongClickListener onItemLongClickListener) {
-        this.onItemLongClickListener = onItemLongClickListener;
-    }
+
     //长按事件
     public interface RecyclerViewOnItemLongClickListener {
 
         boolean onItemLongClickListener(View view, int position);
 
     }
+
+
 
 }

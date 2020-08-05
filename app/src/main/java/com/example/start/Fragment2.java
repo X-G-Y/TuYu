@@ -8,6 +8,7 @@ import android.text.InputFilter;
 import android.text.Spanned;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
@@ -24,12 +26,9 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static java.sql.Types.NULL;
 
 
 /**
@@ -49,8 +48,9 @@ public class Fragment2 extends Fragment implements MyRecyclerviewAdapter.Recycle
     //对话框
     private AlertDialog.Builder builder;
     //动态循环视图对象
-    private RecyclerView recyclerView_dynamic;
+    public RecyclerView recyclerView_dynamic;
     private int position = 3;  //定义新建item位置
+    private int RenamePosition = 0;//定义重命名的item
     boolean ifstart = true;
     private View view;
     private ImageButton imageButton;
@@ -58,8 +58,6 @@ public class Fragment2 extends Fragment implements MyRecyclerviewAdapter.Recycle
     private DocumentManger doc = new DocumentManger("新建分类", R.drawable.documentpng);
     //线性适配器对象
     private MyRecyclerviewAdapter myRecyclerviewAdapter;
-    //当前队列
-    private List<DocumentManger> listNow = new ArrayList<>();
     //所有队列
     private List<DocumentManger> listAll = new ArrayList<>();
     // TODO: Rename parameter arguments, choose names that match
@@ -159,24 +157,25 @@ public class Fragment2 extends Fragment implements MyRecyclerviewAdapter.Recycle
             }
         });
 
+        // 新建分类按钮创建监听事件
         addManger.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(basic.myActivity, "新建分类", 1000).show();
-                showDialog();
+                Toast.makeText(basic.myActivity, "新建分类", Toast.LENGTH_SHORT).show();
+                showCreateNewDocumentDialog();
             }
         });
 
         //初始化recyclerview
         init();
         //设置RecyclerView的每一项的长按事件
-        myRecyclerviewAdapter.setOnItemLongClickListener(new MyRecyclerviewAdapter.RecyclerViewOnItemLongClickListener() {
-            public boolean onItemLongClickListener(View view, int position) {
-                Snackbar.make(view, "长按事件：" + listAll.get(position), Snackbar.LENGTH_SHORT).show();
-                Toast.makeText(basic.myActivity, position + "xgy", 300).show();
-                return true;
+        myRecyclerviewAdapter.setOnItemLongClickListener(new MyRecyclerviewAdapter.OnItemLongClickListener() {
+            @Override
+            public void onItemLongClick(View view, int position) {
+                showPopupMenu(recyclerView_dynamic.getChildAt(position),position);
             }
         });
+
 
         return view;
     }
@@ -223,7 +222,7 @@ public class Fragment2 extends Fragment implements MyRecyclerviewAdapter.Recycle
     }
 
     //点击添加分类之后出现的对话框，左按钮是确定，右按钮是取消，
-    private void showDialog() {
+    private void showCreateNewDocumentDialog() {
         final EditText editText = new EditText(getActivity());
         //设置对空格的过滤器
         editText.setFilters(new InputFilter[]{new SpaceFilter()});
@@ -240,11 +239,11 @@ public class Fragment2 extends Fragment implements MyRecyclerviewAdapter.Recycle
                         }
                         else if (editText.getText().length() == 0 && editTextIsEmpty){
                             //期望是dialog的动态刷新，目前以Toast的方式提示用户
-                            Toast.makeText(basic.myActivity, "呐，才不要什么都不输入呢！", Toast.LENGTH_LONG).show();
-                            Toast.makeText(basic.myActivity, "就算是输入空格也没有用的呢",Toast.LENGTH_LONG).show();
+                            Toast.makeText(basic.myActivity, "呐，才不要什么都不输入呢！", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(basic.myActivity, "就算是输入空格也没有用的呢",Toast.LENGTH_SHORT).show();
                         }
                         else if (IsExact(editText)){
-                            Toast.makeText(basic.myActivity, "分类已存在",Toast.LENGTH_LONG).show();
+                            Toast.makeText(basic.myActivity, "分类已存在",Toast.LENGTH_SHORT).show();
                         }
                         else{
                             doc = new DocumentManger(editText.getText().toString(), R.drawable.documentpng);
@@ -256,7 +255,7 @@ public class Fragment2 extends Fragment implements MyRecyclerviewAdapter.Recycle
                 .setPositiveButton("取消", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(basic.myActivity, "已取消",Toast.LENGTH_LONG).show();
+                        Toast.makeText(basic.myActivity, "已取消",Toast.LENGTH_SHORT).show();
                     }
                 });
         builder.create().show();
@@ -289,4 +288,76 @@ public class Fragment2 extends Fragment implements MyRecyclerviewAdapter.Recycle
         }
         return ifExact;
     }
+
+    private void showPopupMenu(final View view, final int position) {
+        // 这里的view代表popupMenu需要依附的view
+        final PopupMenu popupMenu = new PopupMenu(basic.myActivity, view);
+        // 获取布局文件
+        popupMenu.getMenuInflater().inflate(R.menu.popmenu, popupMenu.getMenu());
+        popupMenu.show();
+        // 通过上面这几行代码，就可以把控件显示出来了
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                // 控件每一个item的点击事件
+                switch (item.getItemId()){
+                    //menu1是重命名
+                    case R.id.menu1:
+                        showRenameDialog(position);
+                    //menu2是移动
+
+                    //menu3是删除
+                }
+                return true;
+            }
+        });
+
+
+        popupMenu.setOnDismissListener(new PopupMenu.OnDismissListener() {
+            @Override
+            public void onDismiss(PopupMenu menu) {
+                // 控件消失时的事件
+            }
+        });
+    }
+
+
+    //设置重命名时候的
+    public String showRenameDialog(final int position){
+        final EditText editText = new EditText(getActivity());
+        //设置对空格的过滤器
+        editText.setFilters(new InputFilter[]{new SpaceFilter()});
+        builder = new AlertDialog.Builder(getActivity()).setTitle("重命名").setView(editText)
+                .setNegativeButton("确认", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        editTextIsEmpty = true;
+                        //先判断命名是否已经存在
+                        if (editText.getText().length() == 0 && editTextIsEmpty){
+                            //期望是dialog的动态刷新，目前以Toast的方式提示用户
+                            Toast.makeText(basic.myActivity, "呐，才不要什么都不输入呢！", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(basic.myActivity, "就算是输入空格也没有用的呢",Toast.LENGTH_SHORT).show();
+                        }
+                        else if (IsExact(editText)){
+                            Toast.makeText(basic.myActivity, "分类已存在",Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            listAll.get(position).name.replace(listAll.get(position).name, editText.getText().toString());
+                            Toast.makeText(basic.myActivity, "Replace", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+        builder
+                .setPositiveButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(basic.myActivity, "已取消",Toast.LENGTH_SHORT).show();
+                    }
+                });
+        builder.create().show();
+        return editText.getText().toString();
+    }
+
+
+
 }

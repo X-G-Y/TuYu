@@ -5,8 +5,8 @@ package com.example.start;
 /*     含一张图片和分类对应的名字 */
 public class DocumentManger {
 
-    private  String name;
-    private  int imageID;
+    public String name;
+    public int imageID;
 
     public DocumentManger(String name, int imageID){
         this.name = name;
