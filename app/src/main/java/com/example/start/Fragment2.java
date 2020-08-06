@@ -304,9 +304,17 @@ public class Fragment2 extends Fragment implements MyRecyclerviewAdapter.Recycle
                     //menu1是重命名
                     case R.id.menu1:
                         showRenameDialog(position);
+                        break;
                         //menu2是移动
 
                         //menu3是删除
+                    case R.id.menu3:
+                        //删除
+                        myRecyclerviewAdapter.notifyItemRemoved(position);
+                        listAll.remove(position);
+                        //刷新
+                        myRecyclerviewAdapter.notifyItemChanged(position);
+                        break;
                 }
                 return true;
             }

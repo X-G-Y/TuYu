@@ -22,7 +22,7 @@ public class DocumentManger {
 
         return name;
     }
-    /*
+    /*如
     public TextView getTextView(){
         return textView;
     }
