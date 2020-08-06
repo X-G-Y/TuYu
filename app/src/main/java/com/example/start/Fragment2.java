@@ -293,7 +293,7 @@ public class Fragment2 extends Fragment implements MyRecyclerviewAdapter.Recycle
         // 这里的view代表popupMenu需要依附的view
         final PopupMenu popupMenu = new PopupMenu(basic.myActivity, view);
         // 获取布局文件
-        popupMenu.getMenuInflater().inflate(R.menu.popmenu, popupMenu.getMenu());
+        popupMenu.getMenuInflater().inflate(R.menu.pop, popupMenu.getMenu());
         popupMenu.show();
         // 通过上面这几行代码，就可以把控件显示出来了
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -304,9 +304,9 @@ public class Fragment2 extends Fragment implements MyRecyclerviewAdapter.Recycle
                     //menu1是重命名
                     case R.id.menu1:
                         showRenameDialog(position);
-                    //menu2是移动
+                        //menu2是移动
 
-                    //menu3是删除
+                        //menu3是删除
                 }
                 return true;
             }
@@ -342,7 +342,8 @@ public class Fragment2 extends Fragment implements MyRecyclerviewAdapter.Recycle
                             Toast.makeText(basic.myActivity, "分类已存在",Toast.LENGTH_SHORT).show();
                         }
                         else{
-                            listAll.get(position).name.replace(listAll.get(position).name, editText.getText().toString());
+                            listAll.get(position).Rename(editText.getText().toString());
+                            myRecyclerviewAdapter.notifyItemChanged(position);
                             Toast.makeText(basic.myActivity, "Replace", Toast.LENGTH_SHORT).show();
                         }
                     }
