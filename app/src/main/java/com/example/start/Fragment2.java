@@ -3,6 +3,7 @@ package com.example.start;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.Spanned;
@@ -132,12 +133,16 @@ public class Fragment2 extends Fragment implements MyRecyclerviewAdapter.Recycle
 
     }
 
+
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
         view = inflater.inflate(R.layout.fragment_2, container, false);
+
         //搜索按钮
         imageButton = (ImageButton) view.findViewById(R.id.Search);
 
@@ -166,8 +171,18 @@ public class Fragment2 extends Fragment implements MyRecyclerviewAdapter.Recycle
             }
         });
 
-        //初始化recyclerview
-        init();
+        //创建一个网格视图管理器
+        GridLayoutManager manager = new GridLayoutManager(
+                getActivity(), 3
+        );
+        //设置管理器
+        recyclerView_dynamic.setLayoutManager(manager);
+
+        myRecyclerviewAdapter = new MyRecyclerviewAdapter(listAll);
+        recyclerView_dynamic.setAdapter(myRecyclerviewAdapter);
+        //设置默认动画效果
+        recyclerView_dynamic.setItemAnimator(new DefaultItemAnimator());
+
         //设置RecyclerView的每一项的长按事件
         myRecyclerviewAdapter.setOnItemLongClickListener(new MyRecyclerviewAdapter.OnItemLongClickListener() {
             @Override
@@ -176,9 +191,20 @@ public class Fragment2 extends Fragment implements MyRecyclerviewAdapter.Recycle
             }
         });
 
+        //若没有在本地查询到缓存数据，则初始化
+        //初始化recyclerview
+        if(!IfGetdata()) init();
+        else Getdata(listAll);
+
+
 
         return view;
     }
+
+
+
+
+
 
 
     //新建一个分类
@@ -186,14 +212,16 @@ public class Fragment2 extends Fragment implements MyRecyclerviewAdapter.Recycle
         listAll.add(doc);
         myRecyclerviewAdapter.notifyItemInserted(myRecyclerviewAdapter.getItemCount());
         recyclerView_dynamic.scrollToPosition(myRecyclerviewAdapter.getItemCount());
+        //实时保存数据
+        Save(listAll);
     }
+
+
+
+
+
+
     private void init(){
-        //创建一个网格视图管理器
-        GridLayoutManager manager = new GridLayoutManager(
-                getActivity(), 3
-        );
-        //设置管理器
-        recyclerView_dynamic.setLayoutManager(manager);
         //初始创建熊猫头，小鹦鹉，滑稽脸，可以动态刷新
         DocumentManger Panda = new DocumentManger("熊猫头", R.drawable.documentpng);
         listAll.add(Panda);
@@ -201,12 +229,14 @@ public class Fragment2 extends Fragment implements MyRecyclerviewAdapter.Recycle
         listAll.add(parrot);
         DocumentManger comical = new DocumentManger("滑稽", R.drawable.documentpng);
         listAll.add(comical);
-        myRecyclerviewAdapter = new MyRecyclerviewAdapter(listAll);
-        recyclerView_dynamic.setAdapter(myRecyclerviewAdapter);
-        //设置默认动画效果
-        recyclerView_dynamic.setItemAnimator(new DefaultItemAnimator());
+        Save(listAll);
+
 
     }
+
+
+
+
 
 
     @Override
@@ -216,10 +246,19 @@ public class Fragment2 extends Fragment implements MyRecyclerviewAdapter.Recycle
     }
 
 
+
+
+
+
     @Override
     public boolean onItemLongClickListener(View view, int position) {
         return false;
     }
+
+
+
+
+
 
     //点击添加分类之后出现的对话框，左按钮是确定，右按钮是取消，
     private void showCreateNewDocumentDialog() {
@@ -262,6 +301,11 @@ public class Fragment2 extends Fragment implements MyRecyclerviewAdapter.Recycle
 
     }
 
+
+
+
+
+
     /**
      * 禁止输入空格
      *
@@ -277,6 +321,12 @@ public class Fragment2 extends Fragment implements MyRecyclerviewAdapter.Recycle
         }
     }
 
+
+
+
+
+
+
     //判断用户输入的新分类名是否已经存在
     public boolean IsExact(EditText editText){
         ifExact = false;
@@ -288,6 +338,12 @@ public class Fragment2 extends Fragment implements MyRecyclerviewAdapter.Recycle
         }
         return ifExact;
     }
+
+
+
+
+
+
 
     private void showPopupMenu(final View view, final int position) {
         // 这里的view代表popupMenu需要依附的view
@@ -314,6 +370,7 @@ public class Fragment2 extends Fragment implements MyRecyclerviewAdapter.Recycle
                         listAll.remove(position);
                         //刷新
                         myRecyclerviewAdapter.notifyItemChanged(position);
+                        Save(listAll);
                         break;
                 }
                 return true;
@@ -330,7 +387,13 @@ public class Fragment2 extends Fragment implements MyRecyclerviewAdapter.Recycle
     }
 
 
-    //设置重命名时候的
+
+
+
+
+
+
+    //设置重命名时候的dialog
     public String showRenameDialog(final int position){
         final EditText editText = new EditText(getActivity());
         //设置对空格的过滤器
@@ -352,6 +415,8 @@ public class Fragment2 extends Fragment implements MyRecyclerviewAdapter.Recycle
                         else{
                             listAll.get(position).Rename(editText.getText().toString());
                             myRecyclerviewAdapter.notifyItemChanged(position);
+                            //实时保存数据
+                            Save(listAll);
                             Toast.makeText(basic.myActivity, "Replace", Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -368,5 +433,50 @@ public class Fragment2 extends Fragment implements MyRecyclerviewAdapter.Recycle
     }
 
 
+
+
+
+
+    //储存数据
+    //SharedPreferences
+    //目前只是储存到本地，用户清理缓存后会被清除，考虑以后用户数据放到服务器上
+    //todo
+    public void Save(List<DocumentManger> list){
+        SharedPreferences.Editor editor = getActivity().getSharedPreferences("data", Context.MODE_PRIVATE).edit();
+        editor.putInt("Total", list.size());
+        //判断用户是否为第一次使用，若是，则IFGETDATA为false
+        //已经在本地缓存则为true
+        editor.putBoolean("IFGETDATA", true);
+        for(int i = 0;i < list.size();i++){
+            //分别储存document中的名字与图片编号
+            //读取时分别读取即可
+            editor.putString("name"+i, list.get(i).getName());
+            editor.putInt("ImageId"+i,list.get(i).getImageID());
+            editor.apply();
+            editor.commit();
+        }
+    }
+
+    //读取数据，分条读取
+    public void Getdata(List<DocumentManger> list){
+        SharedPreferences pre = getActivity().getSharedPreferences("data", Context.MODE_PRIVATE);
+        int Total = pre.getInt("Total", 0);
+        int ImageID;
+        String name;
+        DocumentManger documentManger;
+        for (int i = 0;i < Total;i++){
+            ImageID = pre.getInt("ImageId"+i, 0);
+            name = pre.getString("name"+i, "就这？");
+            documentManger = new DocumentManger(name, ImageID);
+            list.add(documentManger);
+        }
+    }
+
+    //判断用户是否为第一次使用程序（或者用户没有对主界面有任何更改
+    public boolean IfGetdata(){
+        SharedPreferences pre = getActivity().getSharedPreferences("data", Context.MODE_PRIVATE);
+        //默认为没有获取数据，则值为false
+        return pre.getBoolean("IFGETDATA", false);
+    }
 
 }

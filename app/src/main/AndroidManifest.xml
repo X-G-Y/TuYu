@@ -5,6 +5,7 @@
 
     <application
         android:allowBackup="true"
+        android:name=".MyApplication"
         android:icon="@drawable/icon"
         android:label="图遇"
         android:roundIcon="@mipmap/ic_launcher_round"
@@ -14,7 +15,9 @@
         <!-- SearchActivity是点击搜索按钮之后显示的搜索界面，它的父ParentActivity是basic -->
         <activity
             android:name=".SearchActivity"
-            android:parentActivityName=".basic"></activity>
+            android:parentActivityName=".basic">
+
+        </activity>
         <activity
             android:name=".basic"
             android:label="@string/title_activity_basic"

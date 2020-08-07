@@ -91,7 +91,6 @@ class MyRecyclerviewAdapter extends RecyclerView.Adapter<MyRecyclerviewAdapter.V
             public boolean onLongClick(View v) {
                 int position = holder.getLayoutPosition();
                 onItemLongClickListener.onItemLongClick(holder.itemView, position);
-                Toast.makeText(basic.myActivity, position + "Long", Toast.LENGTH_SHORT).show();
                 return true;
             }
         });
