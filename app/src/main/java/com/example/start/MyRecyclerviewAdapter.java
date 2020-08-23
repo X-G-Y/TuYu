@@ -4,7 +4,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,6 +17,7 @@ class MyRecyclerviewAdapter extends RecyclerView.Adapter<MyRecyclerviewAdapter.V
     private List<DocumentManger> list_request;    //数据源
     private int position;
     private OnItemLongClickListener onItemLongClickListener;
+    private OnItemClickListener onItemClickListener;
 
     @Override
     public boolean onLongClick(View v) {
@@ -53,6 +53,13 @@ class MyRecyclerviewAdapter extends RecyclerView.Adapter<MyRecyclerviewAdapter.V
 
 
 
+    //setOnItemClickListener 接口
+    public interface OnItemClickListener{
+        void onItemClick(View view,int position);
+    }
+
+
+
     //setOnItemLongClickListener 接口
     public interface OnItemLongClickListener{
         void onItemLongClick(View view,int position);
@@ -60,6 +67,10 @@ class MyRecyclerviewAdapter extends RecyclerView.Adapter<MyRecyclerviewAdapter.V
 
     public void setOnItemLongClickListener(OnItemLongClickListener mOnItemLongClickListener) {
         this.onItemLongClickListener = mOnItemLongClickListener;
+    }
+
+    public void setOnItemClickListener(OnItemClickListener mOnItemClickListener) {
+        this.onItemClickListener = mOnItemClickListener;
     }
 
 
@@ -83,7 +94,8 @@ class MyRecyclerviewAdapter extends RecyclerView.Adapter<MyRecyclerviewAdapter.V
         holder.ImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(basic.myActivity, position + "", Toast.LENGTH_SHORT).show();
+                int position = holder.getLayoutPosition();
+                onItemClickListener.onItemClick(holder.itemView, position);
             }
         });
         holder.ImageButton.setOnLongClickListener(new View.OnLongClickListener() {

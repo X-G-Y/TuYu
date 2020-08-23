@@ -3,21 +3,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.start">
 
+
+    <!--获取手机存储卡权限-->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application
-        android:allowBackup="true"
+
         android:name=".MyApplication"
+        android:allowBackup="true"
         android:icon="@drawable/icon"
         android:label="图遇"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+        android:theme="@style/AppCompatTheme"
+        android:requestLegacyExternalStorage="true"
         tools:replace="android:label">
+        <activity android:name=".DocumentActivity"
+            android:parentActivityName=".basic"></activity>
         <!-- SearchActivity是点击搜索按钮之后显示的搜索界面，它的父ParentActivity是basic -->
         <activity
             android:name=".SearchActivity"
-            android:parentActivityName=".basic">
-
-        </activity>
+            android:parentActivityName=".basic"></activity>
         <activity
             android:name=".basic"
             android:label="@string/title_activity_basic"
