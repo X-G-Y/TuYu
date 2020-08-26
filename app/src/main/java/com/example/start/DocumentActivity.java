@@ -8,10 +8,14 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ImageView;
+import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,19 +23,20 @@ import java.util.Objects;
 
 public class DocumentActivity extends AppCompatActivity {
 
-    private static final int IMAGE_REQUEST_CODE = 1;
-    //int IMAGE_REQUEST_CODE = 1;
-    String path;
-    ImageView imageView;
+    private RecyclerView recyclerView;
+    private RecyclerViewAdapterForPicture myRecyclerviewAdapter;
+    private List<ForDisplay > listAll = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_document);
+
+
+
+        //Toolbar
         Toolbar toolbarr = findViewById(R.id.documentToolbar);
-        imageView = findViewById(R.id.ImageForText);
-
-
         setSupportActionBar(toolbarr);
         //设置返回键可用
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -39,37 +44,72 @@ public class DocumentActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         //不显示标题
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-    }
 
+
+
+
+        //recyclerView
+        recyclerView = findViewById(R.id.myrecyclerview);
+        //创建一个网格视图管理器
+        GridLayoutManager manager = new GridLayoutManager(
+                this, 4
+        );
+        //瀑布流
+        //StaggeredGridLayoutManager manager = new
+                //StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
+        //设置管理器
+        recyclerView.setLayoutManager(manager);
+
+        myRecyclerviewAdapter = new RecyclerViewAdapterForPicture(listAll);
+        myRecyclerviewAdapter.GetManger(manager);
+        recyclerView.setAdapter(myRecyclerviewAdapter);
+        //设置颜色分割线
+        //recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+
+        //recyclerView.addItemDecoration(new GridDivider(this, 20, this.getResources().getColor(R.color.black)));
+        //通过列数设置Item间距
+
+        int spanCount = 4; // 3 columns
+        int spacing = 15; // 15px
+        boolean includeEdge = false;
+        recyclerView.addItemDecoration(new GridSpacingItemDecoration(spanCount, spacing, includeEdge));
+
+
+        //设置默认动画效果
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+
+        //设置RecyclerView的每一项的长按事件
+        myRecyclerviewAdapter.setOnItemLongClickListener(new RecyclerViewAdapterForPicture.OnItemLongClickListener() {
+            @Override
+            public void onItemLongClick(View view, int position) {
+                Toast.makeText(DocumentActivity.this, "没开始写", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        //设置RecyclerView的每一项的点击事件
+        myRecyclerviewAdapter.setOnItemClickListener(new RecyclerViewAdapterForPicture.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                //todo
+                Toast.makeText(DocumentActivity.this, "没开始写", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+    }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // 获取menu
         getMenuInflater().inflate(R.menu.menuindocument, menu);
-        // 设置SearchView
-        MenuItem menuItem = menu.findItem(R.id.AddPicture);
         return true;
     }
-
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.AddPicture:
-                // User chose the "Settings" item, show the app settings UI...
-                //在这里跳转到手机系统相册里面
-                /*Intent intent = new Intent(
-                        Intent.ACTION_GET_CONTENT,
-                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                //允许进行多选操作，并返回多个uri
-                intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-                startActivityForResult(intent, IMAGE_REQUEST_CODE);
-
-                 */
-
-
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);//意图：文件浏览器
                 intent.setType("*/*");//无类型限制
                 //允许进行多选操作，并返回多个uri
@@ -91,40 +131,15 @@ public class DocumentActivity extends AppCompatActivity {
 
         }
     }
+
+
+
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         super.onActivityResult(requestCode, resultCode, data);
-
-        List<Bitmap> fileList = new ArrayList<>();
-        /*
-
-        if (requestCode == IMAGE_REQUEST_CODE && data != null) {
-            ClipData imageNames = data.getClipData();
-            if (imageNames != null) {
-                for (int i = 0; i < imageNames.getItemCount(); i++) {
-                    Uri imageUri = imageNames.getItemAt(i).getUri();
-                    //fileList.add(imageUri.toString());
-                    //System.out.println(imageUri);
-                    imageView.setImageBitmap(transformUri(fileList, imageUri));
-
-                }
-                //uri = imageNames.getItemAt(0).getUri();
-            } else {
-                uri = data.getData();
-                //fileList.add(uri.toString());
-                imageView.setImageBitmap(transformUri(fileList, uri));
-
-            }
-        } else {
-            uri = data.getData();
-            //fileList.add(uri.toString());
-            imageView.setImageBitmap(transformUri(fileList, uri));
-        }
-
-         */
-
-
 
 
         if (resultCode == DocumentActivity.RESULT_OK) {
@@ -132,10 +147,14 @@ public class DocumentActivity extends AppCompatActivity {
                 //单次点击未使用多选的情况
                 try {
                     Uri uri = data.getData();
+                    transformUri(uri);
+                    Toast.makeText(DocumentActivity.this, "选择照片", Toast.LENGTH_SHORT).show();
+                    myRecyclerviewAdapter.notifyItemInserted(myRecyclerviewAdapter.getItemCount());
+                    recyclerView.scrollToPosition(myRecyclerviewAdapter.getItemCount());
                     //TODO 对获得的uri做解析，这部分在另一篇文章讲解
                     //String path = getPath(getApplicationContext(),uri);
                     //TODO 对转换得到的真实路径path做相关处理
-                    imageView.setImageBitmap(transformUri(fileList, uri));
+                    //imageView.setImageBitmap(transformUri(fileList, uri));
                 } catch (Exception e) { }
             }
             else{
@@ -150,7 +169,12 @@ public class DocumentActivity extends AppCompatActivity {
                         //String path = getPath(getApplicationContext(),uri);
                         //routers.add(path);
                         pathList.add(uri.toString());
-                        imageView.setImageBitmap(transformUri(fileList, uri));
+                        System.out.println(uri.toString());
+                        Toast.makeText(DocumentActivity.this, "选择照片", Toast.LENGTH_SHORT).show();
+                        transformUri(uri);
+                        myRecyclerviewAdapter.notifyItemInserted(myRecyclerviewAdapter.getItemCount());
+                        recyclerView.scrollToPosition(myRecyclerviewAdapter.getItemCount());
+
                     }
                     //TODO 对转换得到的真实路径path做相关处理
 
@@ -159,57 +183,32 @@ public class DocumentActivity extends AppCompatActivity {
         }
 
 
-
-        //在相册里面选择好相片之后调回到现在的这个activity中
-        /*switch (requestCode) {
-            case IMAGE_REQUEST_CODE://这里的requestCode是我自己设置的，就是确定返回到那个Activity的标志
-                if (resultCode == RESULT_OK) {//resultcode是setResult里面设置的code值
-                    try {
-                        Uri selectedImage = data.getData(); //获取系统返回的照片的Uri
-                        String[] filePathColumn = {MediaStore.Images.Media.DATA};
-                        Cursor cursor = getContentResolver().query(selectedImage,
-                                filePathColumn, null, null, null);//从系统表中查询指定Uri对应的照片
-                        cursor.moveToFirst();
-                        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                        path = cursor.getString(columnIndex);  //获取照片路径
-                        cursor.close();
-                        Bitmap bitmap = BitmapFactory.decodeFile(path);
-                        if (ContextCompat.checkSelfPermission(DocumentActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                                != PackageManager.PERMISSION_GRANTED) {
-                            ActivityCompat.requestPermissions(DocumentActivity.this, new String[]{
-                                    Manifest.permission.WRITE_EXTERNAL_STORAGE}, 2);
-                        } else {
-                            imageView.setImageBitmap(bitmap);
-                        }
-
-                    } catch (Exception e) {
-                        // TODO Auto-generatedcatch block
-                        e.printStackTrace();
-                    }
-                }
-                break;
-        }
-
-
-    }
-     */
     }
 
+    //新增图片
+    private void newManger(){
+        myRecyclerviewAdapter.notifyItemInserted(myRecyclerviewAdapter.getItemCount());
+        recyclerView.scrollToPosition(myRecyclerviewAdapter.getItemCount());
+}
 
 
-    public Bitmap transformUri(List list,Uri uri){
 
-        Bitmap bitmap = null;
+
+    //将uri转化为bitmap并且将其保存在list中
+    public void transformUri(Uri uri){
+
         try {
-            bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(uri));
-            list.add(bitmap);
-            return bitmap;
+            Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(uri));
+            ForDisplay display = new ForDisplay(bitmap );
+            listAll.add(display);
         }catch (Exception c){
 
         }
-        return bitmap;
 
     }
+
+
+
 
 
 
