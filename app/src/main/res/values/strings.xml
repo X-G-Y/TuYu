@@ -16,4 +16,31 @@
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="title_activity_floating">floating</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+
+    <!-- login and register strings -->
+    <!-- login -->
+    <string name="account_login">Account:</string>
+    <string name="password_login">Password:</string>
+    <string name="account_hint_login">account</string>
+    <string name="password_hint_login">password</string>
+    <string name="login_button">sign in</string>
+
+    <!-- register -->
+    <string name="to_register_button">sign up</string>
+    <string name="account_register">New Account: </string>
+    <string name="password_register">Password: </string>
+    <string name="account_hint_register">Please input your name</string>
+    <string name="password1_register">Please input your password</string>
+    <string name="password2_register">Please verify your password</string>
+    <string name="register_button">sign up</string>
+    <string name="back_button">back</string>
 </resources>
