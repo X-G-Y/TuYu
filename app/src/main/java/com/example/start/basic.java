@@ -1,11 +1,15 @@
 package com.example.start;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -26,6 +30,15 @@ public class basic extends AppCompatActivity implements View.OnClickListener{
         super.onCreate(savedInstanceState);
         setContentView(activity_basic);
         myActivity = this;
+
+
+        //获取读取手机储存权限
+        if (ContextCompat.checkSelfPermission(basic.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(basic.this, new String[]{
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE}, 2);
+        } else {
+        }
 
 
         //打印日志

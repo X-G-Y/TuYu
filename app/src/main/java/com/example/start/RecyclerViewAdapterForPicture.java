@@ -1,23 +1,26 @@
 package com.example.start;
 
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
 
 /*  对于recyclerview重写的的适配器类*/
-class MyRecyclerviewAdapter extends RecyclerView.Adapter<MyRecyclerviewAdapter.ViewHolder> implements View.OnLongClickListener {
+class RecyclerViewAdapterForPicture extends RecyclerView.Adapter<RecyclerViewAdapterForPicture.ViewHolder> implements View.OnLongClickListener {
 
-    private List<DocumentManger> list_request;    //数据源
+    private List<ForDisplay> list_request;    //数据源
     private int position;
     private OnItemLongClickListener onItemLongClickListener;
     private OnItemClickListener onItemClickListener;
+    private GridLayoutManager gridLayoutManager;
 
     @Override
     public boolean onLongClick(View v) {
@@ -28,14 +31,12 @@ class MyRecyclerviewAdapter extends RecyclerView.Adapter<MyRecyclerviewAdapter.V
     //初始化item对象
     static class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView textView;
         android.widget.ImageButton ImageButton;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            textView = itemView.findViewById(R.id.item_name);
-            ImageButton = itemView.findViewById(R.id.item_picture);
+            ImageButton = itemView.findViewById(R.id.display_picture);
         }
 
 
@@ -46,7 +47,7 @@ class MyRecyclerviewAdapter extends RecyclerView.Adapter<MyRecyclerviewAdapter.V
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         //将item对象传入到view中
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.picture,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.picturefordisplay,parent,false);
         view.setOnLongClickListener(this);
         return new ViewHolder(view);
     }
@@ -75,7 +76,7 @@ class MyRecyclerviewAdapter extends RecyclerView.Adapter<MyRecyclerviewAdapter.V
 
 
     //获取list数量大小，在adapter的构造方法里传入需要的数据源，之后返回大小
-    public MyRecyclerviewAdapter(List<DocumentManger> list_request) {
+    public RecyclerViewAdapterForPicture(List<ForDisplay> list_request) {
         this.list_request = list_request;
     }
 
@@ -88,9 +89,14 @@ class MyRecyclerviewAdapter extends RecyclerView.Adapter<MyRecyclerviewAdapter.V
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
-        DocumentManger picture = list_request.get(position);
-        holder.ImageButton.setImageResource(picture.getImageID());
-        holder.textView.setText(picture.getName());
+        ForDisplay picture = list_request.get(position);
+        ViewGroup.LayoutParams parm = holder.itemView.getLayoutParams();
+        parm.height =
+                gridLayoutManager.getWidth()/gridLayoutManager.getSpanCount()
+                        - 2*holder.itemView.getPaddingLeft() - 2*((ViewGroup.MarginLayoutParams)parm).leftMargin;
+        Drawable drawable = new BitmapDrawable(picture.getImageID());
+        holder.ImageButton.setImageDrawable(drawable);
+        //holder.ImageButton.setImageResource(R.drawable.god);
         holder.ImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -117,6 +123,10 @@ class MyRecyclerviewAdapter extends RecyclerView.Adapter<MyRecyclerviewAdapter.V
 
         boolean onItemLongClickListener(View view, int position);
 
+    }
+
+    public void GetManger(GridLayoutManager gridLayoutManager){
+        this.gridLayoutManager = gridLayoutManager;
     }
 
 

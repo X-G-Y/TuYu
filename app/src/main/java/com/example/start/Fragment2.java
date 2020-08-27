@@ -191,6 +191,18 @@ public class Fragment2 extends Fragment implements MyRecyclerviewAdapter.Recycle
             }
         });
 
+        //设置RecyclerView的每一项的点击事件
+        myRecyclerviewAdapter.setOnItemClickListener(new MyRecyclerviewAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                //点击进入该Item对应的页面
+                Intent intent = new Intent(getActivity(), DocumentActivity.class);
+                intent.putExtra("name", listAll.get(position).getName());
+                startActivity(intent);
+            }
+
+        });
+
         //若没有在本地查询到缓存数据，则初始化
         //初始化recyclerview
         if(!IfGetdata()) init();

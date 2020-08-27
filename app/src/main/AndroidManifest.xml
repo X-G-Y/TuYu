@@ -2,17 +2,22 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.start">
+    <!--获取手机存储卡权限-->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
+    <!-- 添加网络访问权限-->
     <uses-permission android:name="android.permission.INTERNET" />
 
-
     <application
+        android:allowBackup="true"
         android:name=".MyApplication"
         android:icon="@drawable/icon"
         android:label="图遇"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+        android:theme="@style/AppCompatTheme"
+        android:requestLegacyExternalStorage="true"
         tools:replace="android:label"
         android:networkSecurityConfig="@xml/network_security_config"
         tools:targetApi="n">
@@ -24,14 +29,16 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity android:name=".DocumentActivity"
+            android:parentActivityName=".basic"></activity>
+        <!-- SearchActivity是点击搜索按钮之后显示的搜索界面，它的父ParentActivity是basic -->
         <activity
             android:name=".SearchActivity"
-            android:parentActivityName=".basic" />
+            android:parentActivityName=".basic"/>
         <activity
             android:name=".basic"
             android:label="@string/title_activity_basic"
-            android:theme="@style/AppCompatTheme">
-        </activity>
+            android:theme="@style/AppCompatTheme"/>
     </application>
 
 </manifest>
