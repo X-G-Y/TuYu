@@ -33,6 +33,7 @@
     <string name="account_hint_login">account</string>
     <string name="password_hint_login">password</string>
     <string name="login_button">sign in</string>
+    <string name="visitor_button">visitor</string>
 
     <!-- register -->
     <string name="to_register_button">sign up</string>

@@ -41,6 +41,7 @@ public class LoginActivity extends AppCompatActivity {
         passwordEdit = findViewById(R.id.password_login);
         Button loginButton = findViewById(R.id.login_button);
         Button registerButton = findViewById(R.id.to_register_button);
+        Button visitorButton = findViewById(R.id.visitor_button);
 
         loginButton.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -53,6 +54,14 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        visitorButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), basic.class);
                 startActivity(intent);
             }
         });
