@@ -9,16 +9,21 @@ import android.text.InputFilter;
 import android.text.Spanned;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.PopupMenu;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
@@ -27,6 +32,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +52,11 @@ public class Fragment2 extends Fragment implements MyRecyclerviewAdapter.Recycle
     private boolean editTextIsEmpty = false;
     //判断用户新建分类命名是否存在
     private boolean ifExact = false;
+    //导航栏中的4个group
+    private View group1;
+    private View group2;
+    private View group3;
+    private View group4;
     //对话框
     private AlertDialog.Builder builder;
     //动态循环视图对象
@@ -54,9 +65,19 @@ public class Fragment2 extends Fragment implements MyRecyclerviewAdapter.Recycle
     private int RenamePosition = 0;//定义重命名的item
     boolean ifstart = true;
     private View view;
-    private ImageButton imageButton;
+    //搜索按钮
+    private ImageButton Search;
+    //悬浮按钮
     private FloatingActionButton addManger;
+    //适用分类
     private DocumentManger doc = new DocumentManger("新建分类", R.drawable.documentpng);
+    //用户名字
+    private TextView UserName ;
+    private NavigationView navigationView;
+    //导航栏
+    private DrawerLayout drawerLayout;
+    //导航栏按钮
+    private ImageButton Drawer;
     //线性适配器对象
     private MyRecyclerviewAdapter myRecyclerviewAdapter;
     //所有队列
@@ -101,7 +122,8 @@ public class Fragment2 extends Fragment implements MyRecyclerviewAdapter.Recycle
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
+        //使fragment有菜单
+        setHasOptionsMenu(true);
 
 
         if (getArguments() != null) {
@@ -143,16 +165,68 @@ public class Fragment2 extends Fragment implements MyRecyclerviewAdapter.Recycle
 
         view = inflater.inflate(R.layout.fragment_2, container, false);
 
+        FindView();
+        OnclickForView();
+
+        return view;
+    }
+
+
+    //为view注册
+    public void FindView(){
         //搜索按钮
-        imageButton = (ImageButton) view.findViewById(R.id.Search);
+        Search = (ImageButton) view.findViewById(R.id.Search);
+
+        //用户名字
+        UserName = view.findViewById(R.id.username);
+        //加粗
+        //UserName .setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
 
         //新建分类按钮
         addManger = (FloatingActionButton)view.findViewById(R.id.fab);
 
+
+
         //获取recyclerview
         recyclerView_dynamic = view.findViewById(R.id.recyclerview);
 
-        imageButton.setOnClickListener(new View.OnClickListener() {
+        //获取导航栏下面部分
+        navigationView=view.findViewById( R.id.navigation);
+        navigationView.setItemIconTintList( null );
+
+        //导航栏
+        drawerLayout = view.findViewById(R.id.drawer_layout);
+
+        //导航栏按钮
+        Drawer = view.findViewById(R.id.UserSpace);
+
+        //导航栏中的四个group
+        group1 = view.findViewById(R.id.g1);
+        group2 = view.findViewById(R.id.g2);
+        group3 = view.findViewById(R.id.g3);
+        group4 = view.findViewById(R.id.g4);
+
+        //创建一个网格视图管理器
+        GridLayoutManager manager = new GridLayoutManager(
+                getActivity(), 3
+        );
+
+
+        //设置管理器
+        recyclerView_dynamic.setLayoutManager(manager);
+
+        myRecyclerviewAdapter = new MyRecyclerviewAdapter(listAll);
+        recyclerView_dynamic.setAdapter(myRecyclerviewAdapter);
+        //设置默认动画效果
+        recyclerView_dynamic.setItemAnimator(new DefaultItemAnimator());
+    }
+
+    //为view设置监听事件
+    public void OnclickForView(){
+
+
+        //查找按钮
+        Search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
                 Log.e(getTag(), "onClick: ");
@@ -161,6 +235,18 @@ public class Fragment2 extends Fragment implements MyRecyclerviewAdapter.Recycle
 
             }
         });
+
+
+        //悬浮窗按钮，点击可显示悬浮窗
+        Drawer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawerLayout.openDrawer(GravityCompat.START);
+            }
+        });
+
+
+
 
         // 新建分类按钮创建监听事件
         addManger.setOnClickListener(new View.OnClickListener() {
@@ -171,17 +257,40 @@ public class Fragment2 extends Fragment implements MyRecyclerviewAdapter.Recycle
             }
         });
 
-        //创建一个网格视图管理器
-        GridLayoutManager manager = new GridLayoutManager(
-                getActivity(), 3
-        );
-        //设置管理器
-        recyclerView_dynamic.setLayoutManager(manager);
+       /* //导航栏中的4个group
+        group1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //todo
+                Toast.makeText(basic.myActivity, "咕咕咕", Toast.LENGTH_SHORT).show();
+            }
+        });
 
-        myRecyclerviewAdapter = new MyRecyclerviewAdapter(listAll);
-        recyclerView_dynamic.setAdapter(myRecyclerviewAdapter);
-        //设置默认动画效果
-        recyclerView_dynamic.setItemAnimator(new DefaultItemAnimator());
+        group2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //todo
+            }
+        });
+
+        group3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //todo
+            }
+        });
+
+        group4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //todo
+            }
+        });
+
+        */
+
+
+
 
         //设置RecyclerView的每一项的长按事件
         myRecyclerviewAdapter.setOnItemLongClickListener(new MyRecyclerviewAdapter.OnItemLongClickListener() {
@@ -207,12 +316,7 @@ public class Fragment2 extends Fragment implements MyRecyclerviewAdapter.Recycle
         //初始化recyclerview
         if(!IfGetdata()) init();
         else Getdata(listAll);
-
-
-
-        return view;
     }
-
 
 
 
@@ -354,7 +458,35 @@ public class Fragment2 extends Fragment implements MyRecyclerviewAdapter.Recycle
 
 
 
-
+    //加载导航栏中的菜单
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // TODO Auto-generated method stub
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menufordrawer, menu);
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // TODO Auto-generated method stub
+        switch (item.getItemId()) {
+            case R.id.item1:
+                //todo
+                Toast.makeText(basic.myActivity, "咕咕咕", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.item2:
+                //todo
+                break;
+            case R.id.item3:
+                //todo
+                break;
+            case R.id.item4:
+                //todo
+                break;
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
 
     private void showPopupMenu(final View view, final int position) {

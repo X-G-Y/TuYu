@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1.5"
+        android:alpha="1"
+        android:background="@color/lavender"
+        android:orientation="horizontal">
+
+
+        <ImageButton
+            android:id="@+id/Search"
+            android:layout_width="50dp"
+            android:alpha="1"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:background="@color/lavender"
+            android:padding="10dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/findview">
+
+        </ImageButton>
+
+        <ImageButton
+            android:id="@+id/UserSpace"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:alpha="1"
+            android:background="@color/lavender"
+            android:padding="10dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/userspace">
+
+        </ImageButton>
+
+        <ImageButton
+            android:id="@+id/UserStar"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:alpha="1"
+            android:layout_toLeftOf="@id/UserDownload"
+            android:background="@color/lavender"
+            android:padding="10dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/starpng">
+
+        </ImageButton>
+
+        <ImageButton
+            android:id="@+id/UserDownload"
+            android:layout_width="50dp"
+            android:alpha="1"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@id/Search"
+            android:background="@color/lavender"
+            android:padding="10dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/download">
+
+        </ImageButton>
+
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="15dp"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="15"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:backgroundTint="@color/white"
+            android:layout_margin="@dimen/fab_margin"
+            android:src="@drawable/addicon"/>
+
+
+
+    </FrameLayout>
+
+</LinearLayout>
