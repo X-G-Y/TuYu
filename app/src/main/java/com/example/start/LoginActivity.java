@@ -137,6 +137,8 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         try {
+                            if(response == null) Log.d("response", "onResponse: response is null");
+                            assert response != null;
                             JSONObject jsonObject = (JSONObject) new JSONObject(response).get("params");  //注③
                             String result = jsonObject.getString("Result");  //注④
                             if (result.equals("success")) {  //注⑤

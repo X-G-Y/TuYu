@@ -5,13 +5,23 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <TextView
+        android:layout_marginTop="30sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="50sp"
+        android:text="@string/register_button"
+        android:layout_gravity="center"/>
+
     <LinearLayout
+        android:layout_marginTop="50sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="60sp"
+            android:layout_marginStart="10sp"
             android:gravity="center_vertical"
             android:text="@string/account_register"
             android:textSize="20sp"/>
@@ -20,6 +30,7 @@
             android:id="@+id/account_register"
             android:layout_width="0dp"
             android:layout_height="60sp"
+            android:layout_marginEnd="10sp"
             android:hint="@string/account_hint_register"
             android:layout_weight="1"
             android:textSize="20sp"
@@ -35,6 +46,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="60sp"
+            android:layout_marginStart="10sp"
             android:gravity="center_vertical"
             android:text="@string/password_register"
             android:textSize="20sp"/>
@@ -43,6 +55,8 @@
             android:id="@+id/password1_register"
             android:layout_width="0dp"
             android:layout_height="60sp"
+            android:layout_marginEnd="10sp"
+
             android:hint="@string/password1_register"
             android:layout_weight="1"
             android:inputType="textPassword"
@@ -58,6 +72,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="60sp"
+            android:layout_marginStart="10sp"
             android:gravity="center_vertical"
             android:text="@string/password_register"
             android:textSize="20sp"/>
@@ -66,6 +81,8 @@
             android:id="@+id/password2_register"
             android:layout_width="0dp"
             android:layout_height="60sp"
+            android:layout_marginEnd="10sp"
+
             android:hint="@string/password2_register"
             android:layout_weight="1"
             android:inputType="textPassword"
@@ -76,26 +93,29 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50sp">
 
         <Button
             android:id="@+id/register_button"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="4sp"
+            android:background="@drawable/radius_shape"
             android:text="@string/register_button"
             android:textSize="20sp"
-            android:layout_gravity="bottom"
             android:layout_weight="1"
             tools:ignore="ButtonStyle" />
 
-        <Button
+        <ImageButton
             android:id="@+id/back_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/back_button"
-            android:textSize="20sp"
-            android:layout_gravity="bottom"
-            android:layout_weight="1"
+            android:layout_width="50sp"
+            android:layout_height="50sp"
+            android:layout_marginStart="10sp"
+            android:layout_marginEnd="4sp"
+            android:scaleType="centerInside"
+            android:background="@drawable/radius_shape_back"
+            android:src="@drawable/array"
             tools:ignore="ButtonStyle" />
     </LinearLayout>
 
