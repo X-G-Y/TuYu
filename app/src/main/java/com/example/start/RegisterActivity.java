@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,7 +32,7 @@ public class RegisterActivity extends AppCompatActivity {
     EditText passwordEdit1;
     EditText passwordEdit2;
     Button signUpButton;
-    Button backButton;
+    ImageButton backButton;
 
     String url = "http://33h79225f6.zicp.vip/MyFirstWebApp/LoginServlet";
 

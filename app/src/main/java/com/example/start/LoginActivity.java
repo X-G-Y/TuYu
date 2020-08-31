@@ -2,10 +2,13 @@ package com.example.start;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -32,16 +35,58 @@ public class LoginActivity extends AppCompatActivity {
 
     private EditText passwordEdit;
 
+    CheckBox checkBox;
+
+    private SharedPreferences.Editor editor;
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(checkBox.isChecked()){
+            if(checkBox.isChecked()){
+                editor.putString("account", accountEdit.getText().toString());
+                editor.putString("password", passwordEdit.getText().toString());
+            }else{
+                editor.clear();
+            }
+            editor.apply();
+        }
+    }
+
+    @SuppressLint("CommitPrefEdits")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        editor = preferences.edit();
 
         accountEdit = findViewById(R.id.account_login);
         passwordEdit = findViewById(R.id.password_login);
         Button loginButton = findViewById(R.id.login_button);
         Button registerButton = findViewById(R.id.to_register_button);
         Button visitorButton = findViewById(R.id.visitor_button);
+        checkBox = findViewById(R.id.checkbox_login);
+
+        if(preferences.getBoolean("remember_me", false)){
+            accountEdit.setText(preferences.getString("account", ""));
+            passwordEdit.setText(preferences.getString("password", ""));
+            checkBox.setChecked(true);
+        }else{
+            checkBox.setChecked(false);
+        }
+
+        checkBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(checkBox.isChecked()){
+                    editor.putBoolean("remember_me", true);
+                }else{
+                    editor.putBoolean("remember_me", false);
+                }
+            }
+        });
 
         loginButton.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -65,6 +110,8 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
     }
 
     public void LoginRequest(final EditText accountEdit, final EditText passwordEdit) {
@@ -90,6 +137,8 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         try {
+                            if(response == null) Log.d("response", "onResponse: response is null");
+                            assert response != null;
                             JSONObject jsonObject = (JSONObject) new JSONObject(response).get("params");  //注③
                             String result = jsonObject.getString("Result");  //注④
                             if (result.equals("success")) {  //注⑤
