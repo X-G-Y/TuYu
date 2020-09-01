@@ -89,6 +89,7 @@ class MyRecyclerviewAdapter extends RecyclerView.Adapter<MyRecyclerviewAdapter.V
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         DocumentManger picture = list_request.get(position);
+        holder.ImageButton.getBackground().setAlpha(0);
         holder.ImageButton.setImageResource(picture.getImageID());
         holder.textView.setText(picture.getName());
         holder.ImageButton.setOnClickListener(new View.OnClickListener() {

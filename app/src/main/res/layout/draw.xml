@@ -70,7 +70,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="15dp"/>
+        android:layout_height="15dp" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -83,7 +83,8 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerview"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@drawable/bk">
 
 
         </androidx.recyclerview.widget.RecyclerView>

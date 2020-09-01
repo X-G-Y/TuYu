@@ -170,16 +170,15 @@ public class DocumentActivity extends AppCompatActivity {
                         //routers.add(path);
                         pathList.add(uri.toString());
                         System.out.println(uri.toString());
-                        Toast.makeText(DocumentActivity.this, "选择照片", Toast.LENGTH_SHORT).show();
                         transformUri(uri);
                         myRecyclerviewAdapter.notifyItemInserted(myRecyclerviewAdapter.getItemCount());
                         recyclerView.scrollToPosition(myRecyclerviewAdapter.getItemCount());
 
                     }
-                    //TODO 对转换得到的真实路径path做相关处理
-
+                    Toast.makeText(DocumentActivity.this, "选择照片", Toast.LENGTH_SHORT).show();
                 }
             }
+            TransFormBitmap(listAll);
         }
 
 
@@ -208,7 +207,12 @@ public class DocumentActivity extends AppCompatActivity {
     }
 
 
-
+    //ForDisplay类型数据储存接口
+    //传进来一个List，里面是ForDisplay的数据
+    //可以看java文件里的ForDisplay类
+    private void TransFormBitmap(List<ForDisplay> list){
+        //todo
+    }
 
 
 

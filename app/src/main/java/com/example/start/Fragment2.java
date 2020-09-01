@@ -52,11 +52,6 @@ public class Fragment2 extends Fragment implements MyRecyclerviewAdapter.Recycle
     private boolean editTextIsEmpty = false;
     //判断用户新建分类命名是否存在
     private boolean ifExact = false;
-    //导航栏中的4个group
-    private View group1;
-    private View group2;
-    private View group3;
-    private View group4;
     //对话框
     private AlertDialog.Builder builder;
     //动态循环视图对象
@@ -200,11 +195,6 @@ public class Fragment2 extends Fragment implements MyRecyclerviewAdapter.Recycle
         //导航栏按钮
         Drawer = view.findViewById(R.id.UserSpace);
 
-        //导航栏中的四个group
-        group1 = view.findViewById(R.id.g1);
-        group2 = view.findViewById(R.id.g2);
-        group3 = view.findViewById(R.id.g3);
-        group4 = view.findViewById(R.id.g4);
 
         //创建一个网格视图管理器
         GridLayoutManager manager = new GridLayoutManager(
@@ -257,37 +247,6 @@ public class Fragment2 extends Fragment implements MyRecyclerviewAdapter.Recycle
             }
         });
 
-       /* //导航栏中的4个group
-        group1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //todo
-                Toast.makeText(basic.myActivity, "咕咕咕", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        group2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //todo
-            }
-        });
-
-        group3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //todo
-            }
-        });
-
-        group4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //todo
-            }
-        });
-
-        */
 
 
 
@@ -316,6 +275,7 @@ public class Fragment2 extends Fragment implements MyRecyclerviewAdapter.Recycle
         //初始化recyclerview
         if(!IfGetdata()) init();
         else Getdata(listAll);
+
     }
 
 
@@ -339,15 +299,12 @@ public class Fragment2 extends Fragment implements MyRecyclerviewAdapter.Recycle
 
     private void init(){
         //初始创建熊猫头，小鹦鹉，滑稽脸，可以动态刷新
-        DocumentManger Panda = new DocumentManger("熊猫头", R.drawable.documentpng);
-        listAll.add(Panda);
-        DocumentManger parrot = new DocumentManger("小鹦鹉", R.drawable.documentpng);
-        listAll.add(parrot);
-        DocumentManger comical = new DocumentManger("滑稽", R.drawable.documentpng);
-        listAll.add(comical);
-        Save(listAll);
-
-
+        doc = new DocumentManger("熊猫头", R.drawable.documentpng);
+        newManger();
+        doc= new DocumentManger("小鹦鹉", R.drawable.documentpng);
+        newManger();
+        doc = new DocumentManger("滑稽", R.drawable.documentpng);
+        newManger();
     }
 
 
@@ -465,28 +422,8 @@ public class Fragment2 extends Fragment implements MyRecyclerviewAdapter.Recycle
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menufordrawer, menu);
     }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // TODO Auto-generated method stub
-        switch (item.getItemId()) {
-            case R.id.item1:
-                //todo
-                Toast.makeText(basic.myActivity, "咕咕咕", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.item2:
-                //todo
-                break;
-            case R.id.item3:
-                //todo
-                break;
-            case R.id.item4:
-                //todo
-                break;
-            default:
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
+
+
 
 
     private void showPopupMenu(final View view, final int position) {
@@ -599,7 +536,12 @@ public class Fragment2 extends Fragment implements MyRecyclerviewAdapter.Recycle
             editor.apply();
             editor.commit();
         }
+
+
+
     }
+
+
 
     //读取数据，分条读取
     public void Getdata(List<DocumentManger> list){
@@ -611,8 +553,8 @@ public class Fragment2 extends Fragment implements MyRecyclerviewAdapter.Recycle
         for (int i = 0;i < Total;i++){
             ImageID = pre.getInt("ImageId"+i, 0);
             name = pre.getString("name"+i, "就这？");
-            documentManger = new DocumentManger(name, ImageID);
-            list.add(documentManger);
+            doc = new DocumentManger(name, ImageID);
+            newManger();
         }
     }
 
@@ -621,6 +563,19 @@ public class Fragment2 extends Fragment implements MyRecyclerviewAdapter.Recycle
         SharedPreferences pre = getActivity().getSharedPreferences("data", Context.MODE_PRIVATE);
         //默认为没有获取数据，则值为false
         return pre.getBoolean("IFGETDATA", false);
+    }
+
+
+
+
+
+    //本地存储数据的同时上传到服务器中
+    //DocumentManger类型数据储存接口
+    //传进来一个List，里面是DocumentManger的数据
+    //可以看java文件里的DocumentManger类
+
+    private void TransForm(List<DocumentManger> list){
+        //todo
     }
 
 }
