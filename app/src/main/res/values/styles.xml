@@ -13,9 +13,16 @@
         <item name="windowNoTitle">true</item>
     </style>
     <!-- 不含Action的格式-->
-    <style name="AppCompatTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppCompatTheme" parent="QMUI.Compat"
+        >
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
         <item name="actionOverflowMenuStyle">@style/OverflowMenuStyle</item>
+        <!--  dialog圆角-->
+        <item name="qmui_dialog_radius">10dp</item>
     </style>
+
+
 
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />

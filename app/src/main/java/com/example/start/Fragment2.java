@@ -1,11 +1,11 @@
 package com.example.start;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.InputFilter;
+import android.text.InputType;
 import android.text.Spanned;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,13 +14,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -33,6 +31,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
+import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,8 +52,6 @@ public class Fragment2 extends Fragment implements MyRecyclerviewAdapter.Recycle
     private boolean editTextIsEmpty = false;
     //判断用户新建分类命名是否存在
     private boolean ifExact = false;
-    //对话框
-    private AlertDialog.Builder builder;
     //动态循环视图对象
     public RecyclerView recyclerView_dynamic;
     private int position = 3;  //定义新建item位置
@@ -335,21 +333,25 @@ public class Fragment2 extends Fragment implements MyRecyclerviewAdapter.Recycle
 
     //点击添加分类之后出现的对话框，左按钮是确定，右按钮是取消，
     private void showCreateNewDocumentDialog() {
-        final EditText editText = new EditText(getActivity());
+        final QMUIDialog.EditTextDialogBuilder builder = new QMUIDialog.EditTextDialogBuilder(getActivity());
         //设置对空格的过滤器
-        editText.setFilters(new InputFilter[]{new SpaceFilter()});
-        builder = new AlertDialog.Builder(getActivity()).setTitle("输入分类名称").setView(editText)
-                .setNegativeButton("确认", new DialogInterface.OnClickListener() {
+        //editText.setFilters(new InputFilter[]{new SpaceFilter()});
+        builder .setTitle("输入分类名称")
+                //设置点击外部时dialog是否关闭
+                .setCanceledOnTouchOutside(true)
+                .setInputType(InputType.TYPE_CLASS_TEXT)
+                .addAction("确认", new QMUIDialogAction.ActionListener() {
                     @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
+                    public void onClick(QMUIDialog dialog, int index) {
+                        CharSequence editText = builder.getEditText().getText();
                         //先判断命名是否已经存在
                         //小彩蛋
-                        if(editText.getText().length() == 0 && !editTextIsEmpty){
+                        if(editText.length() == 0 && !editTextIsEmpty){
                             doc = new DocumentManger("我叫没名字", R.drawable.documentpng);
                             newManger();
                             editTextIsEmpty = true;
                         }
-                        else if (editText.getText().length() == 0 && editTextIsEmpty){
+                        else if (editText.length() == 0 && editTextIsEmpty){
                             //期望是dialog的动态刷新，目前以Toast的方式提示用户
                             Toast.makeText(basic.myActivity, "呐，才不要什么都不输入呢！", Toast.LENGTH_SHORT).show();
                             Toast.makeText(basic.myActivity, "就算是输入空格也没有用的呢",Toast.LENGTH_SHORT).show();
@@ -358,19 +360,20 @@ public class Fragment2 extends Fragment implements MyRecyclerviewAdapter.Recycle
                             Toast.makeText(basic.myActivity, "分类已存在",Toast.LENGTH_SHORT).show();
                         }
                         else{
-                            doc = new DocumentManger(editText.getText().toString(), R.drawable.documentpng);
+                            doc = new DocumentManger(editText.toString(), R.drawable.documentpng);
                             newManger();
+                            dialog.dismiss();
                         }
                     }
-                });
-        builder
-                .setPositiveButton("取消", new DialogInterface.OnClickListener() {
+                })
+                .addAction("取消", new QMUIDialogAction.ActionListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                    public void onClick(QMUIDialog dialog, int index) {
                         Toast.makeText(basic.myActivity, "已取消",Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
                     }
-                });
-        builder.create().show();
+                } )
+                .show();
 
     }
 
@@ -401,10 +404,10 @@ public class Fragment2 extends Fragment implements MyRecyclerviewAdapter.Recycle
 
 
     //判断用户输入的新分类名是否已经存在
-    public boolean IsExact(EditText editText){
+    public boolean IsExact(CharSequence editText){
         ifExact = false;
         for(int i = 0;i < listAll.size();i++){
-            if(listAll.get(i).getName().equals(editText.getText().toString())) {
+            if(listAll.get(i).getName().equals(editText.toString())) {
                 ifExact = true;
                 break;
             }
@@ -475,42 +478,44 @@ public class Fragment2 extends Fragment implements MyRecyclerviewAdapter.Recycle
 
 
     //设置重命名时候的dialog
-    public String showRenameDialog(final int position){
-        final EditText editText = new EditText(getActivity());
-        //设置对空格的过滤器
-        editText.setFilters(new InputFilter[]{new SpaceFilter()});
-        builder = new AlertDialog.Builder(getActivity()).setTitle("重命名").setView(editText)
-                .setNegativeButton("确认", new DialogInterface.OnClickListener() {
+    public void showRenameDialog(final int position){
+        final QMUIDialog.EditTextDialogBuilder builder = new QMUIDialog.EditTextDialogBuilder(getActivity());
+        builder.setTitle("重命名")
+                .setPlaceholder("待输入")
+                //设置点击外部时dialog是否关闭
+                .setCanceledOnTouchOutside(true)
+                .setInputType(InputType.TYPE_CLASS_TEXT)
+                .addAction("确认", new QMUIDialogAction.ActionListener() {
+                            @Override
+                            public void onClick(QMUIDialog dialog, int index) {
+                                CharSequence editText = builder.getEditText().getText();
+                                editTextIsEmpty = true;
+                                //先判断命名是否已经存在
+                                if (editText.length() == 0 && editTextIsEmpty) {
+                                    //期望是dialog的动态刷新，目前以Toast的方式提示用户
+                                    Toast.makeText(basic.myActivity, "呐，才不要什么都不输入呢！", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(basic.myActivity, "就算是输入空格也没有用的呢", Toast.LENGTH_SHORT).show();
+                                } else if (IsExact(editText)) {
+                                    Toast.makeText(basic.myActivity, "分类已存在", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    listAll.get(position).Rename(editText.toString());
+                                    myRecyclerviewAdapter.notifyItemChanged(position);
+                                    //实时保存数据
+                                    Save(listAll);
+                                    dialog.dismiss();
+                                }
+                            }
+                        })
+
+                .addAction("取消", new QMUIDialogAction.ActionListener() {
+
                     @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        editTextIsEmpty = true;
-                        //先判断命名是否已经存在
-                        if (editText.getText().length() == 0 && editTextIsEmpty){
-                            //期望是dialog的动态刷新，目前以Toast的方式提示用户
-                            Toast.makeText(basic.myActivity, "呐，才不要什么都不输入呢！", Toast.LENGTH_SHORT).show();
-                            Toast.makeText(basic.myActivity, "就算是输入空格也没有用的呢",Toast.LENGTH_SHORT).show();
-                        }
-                        else if (IsExact(editText)){
-                            Toast.makeText(basic.myActivity, "分类已存在",Toast.LENGTH_SHORT).show();
-                        }
-                        else{
-                            listAll.get(position).Rename(editText.getText().toString());
-                            myRecyclerviewAdapter.notifyItemChanged(position);
-                            //实时保存数据
-                            Save(listAll);
-                            Toast.makeText(basic.myActivity, "Replace", Toast.LENGTH_SHORT).show();
-                        }
+                    public void onClick(QMUIDialog dialog, int index) {
+                        dialog.dismiss();
                     }
-                });
-        builder
-                .setPositiveButton("取消", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(basic.myActivity, "已取消",Toast.LENGTH_SHORT).show();
-                    }
-                });
-        builder.create().show();
-        return editText.getText().toString();
+                })
+        .show();
+        return ;
     }
 
 

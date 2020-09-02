@@ -21,8 +21,9 @@ android {
             maven {
 
                 url "https://maven.google.com"
+                }
 
-            }
+            maven { url "https://jitpack.io" }
 
         }
         release {
@@ -35,6 +36,16 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+
+    //QMUI
+
+
+    implementation 'com.qmuiteam:qmui:2.0.0-alpha10'
+
+
+
+
 
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
