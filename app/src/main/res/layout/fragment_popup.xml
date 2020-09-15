@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.qmuiteam.qmui.widget.QMUIWindowInsetLayout2 xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/qmui_config_color_white"
+    app:qmui_skin_background="?attr/app_skin_common_background">
+
+    <com.qmuiteam.qmui.widget.QMUITopBarLayout
+        android:id="@+id/topbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.qmuiteam.qmui.widget.QMUIFloatLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/topbar"
+        app:qmui_childHorizontalSpacing="20dp"
+        app:qmui_childVerticalSpacing="20dp"
+        android:padding="20dp">
+
+        <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+            android:id="@+id/actionBtn1"
+            style="@style/QDRoundButtonStyle" />
+
+        <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+            android:id="@+id/actionBtn2"
+            style="@style/QDRoundButtonStyle"
+            android:layout_centerInParent="true"
+            />
+
+        <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+            android:id="@+id/actionBtn3"
+            style="@style/QDRoundButtonStyle"
+             />
+
+        <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+            android:id="@+id/actionBtn4"
+            style="@style/QDRoundButtonStyle"
+             />
+
+        <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+            android:id="@+id/actionBtn5"
+            style="@style/QDRoundButtonStyle"
+           />
+
+        <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+            android:id="@+id/actionBtn6"
+            style="@style/QDRoundButtonStyle"
+           />
+
+        <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+            android:id="@+id/actionBtn7"
+            style="@style/QDRoundButtonStyle"
+            />
+
+        <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+            android:id="@+id/actionBtn8"
+            style="@style/QDRoundButtonStyle"
+            />
+
+    </com.qmuiteam.qmui.widget.QMUIFloatLayout>
+
+
+</com.qmuiteam.qmui.widget.QMUIWindowInsetLayout2>

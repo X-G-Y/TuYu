@@ -98,8 +98,6 @@ public class SearchView extends LinearLayout {
         textSizeSearch = typedArray.getDimension(R.styleable.Search_View_textSizeSearch, 20);
 
         // 搜索框字体颜色（使用十六进制代码，如#333、#8e8e8e）
-        int defaultColor = context.getResources().getColor(R.color.colorText); // 默认颜色 = 灰色
-        textColorSearch = typedArray.getColor(R.styleable.Search_View_textColorSearch, defaultColor);
 
         // 搜索框提示内容（String）
         textHintSearch = typedArray.getString(R.styleable.Search_View_textHintSearch);
@@ -107,9 +105,6 @@ public class SearchView extends LinearLayout {
         // 搜索框高度
         searchBlockHeight = typedArray.getInteger(R.styleable.Search_View_searchBlockHeight, 150);
 
-        // 搜索框颜色
-        int defaultColor2 = context.getResources().getColor(R.color.colorDefault); // 默认颜色 = 白色
-        searchBlockColor = typedArray.getColor(R.styleable.Search_View_searchBlockColor, defaultColor2);
 
         // 释放资源
         typedArray.recycle();

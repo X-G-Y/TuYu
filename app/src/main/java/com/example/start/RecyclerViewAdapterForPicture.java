@@ -16,7 +16,7 @@ import java.util.List;
 /*  对于recyclerview重写的的适配器类*/
 class RecyclerViewAdapterForPicture extends RecyclerView.Adapter<RecyclerViewAdapterForPicture.ViewHolder> implements View.OnLongClickListener {
 
-    private List<ForDisplay> list_request;    //数据源
+    private List<FormImg> list_request;    //数据源
     private int position;
     private OnItemLongClickListener onItemLongClickListener;
     private OnItemClickListener onItemClickListener;
@@ -76,7 +76,7 @@ class RecyclerViewAdapterForPicture extends RecyclerView.Adapter<RecyclerViewAda
 
 
     //获取list数量大小，在adapter的构造方法里传入需要的数据源，之后返回大小
-    public RecyclerViewAdapterForPicture(List<ForDisplay> list_request) {
+    public RecyclerViewAdapterForPicture(List<FormImg> list_request) {
         this.list_request = list_request;
     }
 
@@ -89,12 +89,12 @@ class RecyclerViewAdapterForPicture extends RecyclerView.Adapter<RecyclerViewAda
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
-        ForDisplay picture = list_request.get(position);
+        FormImg picture = list_request.get(position);
         ViewGroup.LayoutParams parm = holder.itemView.getLayoutParams();
         parm.height =
                 gridLayoutManager.getWidth()/gridLayoutManager.getSpanCount()
                         - 2*holder.itemView.getPaddingLeft() - 2*((ViewGroup.MarginLayoutParams)parm).leftMargin;
-        Drawable drawable = new BitmapDrawable(picture.getImageID());
+        Drawable drawable = new BitmapDrawable(picture.getmBitmap());
         holder.ImageButton.setImageDrawable(drawable);
         //holder.ImageButton.setImageResource(R.drawable.god);
         holder.ImageButton.setOnClickListener(new View.OnClickListener() {

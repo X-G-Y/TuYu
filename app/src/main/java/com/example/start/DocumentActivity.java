@@ -17,21 +17,31 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.qmuiteam.qmui.skin.QMUISkinManager;
+import com.qmuiteam.qmui.util.QMUIDisplayHelper;
+import com.qmuiteam.qmui.widget.popup.QMUIPopups;
+import com.qmuiteam.qmui.widget.popup.QMUIQuickAction;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+
 
 public class DocumentActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private RecyclerViewAdapterForPicture myRecyclerviewAdapter;
-    private List<ForDisplay > listAll = new ArrayList<>();
+    private List<FormImg> listAll = new ArrayList<>();
+    ZoomImageView test = findViewById(R.id.test);
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_document);
+
 
 
 
@@ -56,7 +66,7 @@ public class DocumentActivity extends AppCompatActivity {
         );
         //瀑布流
         //StaggeredGridLayoutManager manager = new
-                //StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
+        //StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
         //设置管理器
         recyclerView.setLayoutManager(manager);
 
@@ -83,6 +93,7 @@ public class DocumentActivity extends AppCompatActivity {
             @Override
             public void onItemLongClick(View view, int position) {
                 Toast.makeText(DocumentActivity.this, "没开始写", Toast.LENGTH_SHORT).show();
+                ShowPops(view);
             }
         });
 
@@ -135,6 +146,41 @@ public class DocumentActivity extends AppCompatActivity {
 
 
 
+    protected void ShowPops(View v){
+        QMUIPopups.quickAction(getBaseContext(),
+                QMUIDisplayHelper.dp2px(getBaseContext(), 56),
+                QMUIDisplayHelper.dp2px(getBaseContext(), 56))
+                .shadow(true)
+                .skinManager(QMUISkinManager.defaultInstance(getBaseContext()))
+                .edgeProtection(QMUIDisplayHelper.dp2px(getBaseContext(), 20))
+                .addAction(new QMUIQuickAction.Action().icon(R.drawable.icon_quick_action_share).text("分享").onClick(
+                        new QMUIQuickAction.OnClickListener() {
+                            @Override
+                            public void onClick(QMUIQuickAction quickAction, QMUIQuickAction.Action action, int position) {
+                                quickAction.dismiss();
+                                Toast.makeText(getBaseContext(), "分享成功", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                ))
+                .addAction(new QMUIQuickAction.Action().icon(R.drawable.icon_quick_action_copy).text("修改文字").onClick(
+                        new QMUIQuickAction.OnClickListener() {
+                            @Override
+                            public void onClick(QMUIQuickAction quickAction, QMUIQuickAction.Action action, int position) {
+                                quickAction.dismiss();
+                                Toast.makeText(getBaseContext(), "修改成功", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                ))
+                .addAction(new QMUIQuickAction.Action().icon(R.drawable.icon_popup_close_dark).text("删除").onClick(
+                        new QMUIQuickAction.OnClickListener() {
+                            @Override
+                            public void onClick(QMUIQuickAction quickAction, QMUIQuickAction.Action action, int position) {
+                                quickAction.dismiss();
+                                Toast.makeText(getBaseContext(), "删除成功", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                )).show(v);
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -188,7 +234,9 @@ public class DocumentActivity extends AppCompatActivity {
     private void newManger(){
         myRecyclerviewAdapter.notifyItemInserted(myRecyclerviewAdapter.getItemCount());
         recyclerView.scrollToPosition(myRecyclerviewAdapter.getItemCount());
-}
+    }
+
+
 
 
 
@@ -198,7 +246,7 @@ public class DocumentActivity extends AppCompatActivity {
 
         try {
             Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(uri));
-            ForDisplay display = new ForDisplay(bitmap );
+            FormImg display = new FormImg("null", "null", "null", bitmap);
             listAll.add(display);
         }catch (Exception c){
 
@@ -210,9 +258,10 @@ public class DocumentActivity extends AppCompatActivity {
     //ForDisplay类型数据储存接口
     //传进来一个List，里面是ForDisplay的数据
     //可以看java文件里的ForDisplay类
-    private void TransFormBitmap(List<ForDisplay> list){
+    private void TransFormBitmap(List<FormImg> list){
         //todo
     }
+
 
 
 

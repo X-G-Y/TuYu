@@ -8,8 +8,6 @@ import java.io.ByteArrayOutputStream;
 public class FormImg {
     //参数的名称
     private String mName ;
-    //文件名
-    private String mFileName ;
     //文件的 mime，需要根据文档查询
     private String mMime ;
     //需要上传的图片资源，因为这里测试为了方便起见，直接把 bigmap 传进来，真正在项目中一般不会这般做，而是把图片的路径传过来，在这里对图片进行二进制转换
@@ -17,7 +15,6 @@ public class FormImg {
 
     public FormImg(String mName, String mFileName, String mMime, Bitmap mBitmap) {
         this.mName = mName;
-        this.mFileName = mFileName;
         this.mMime = mMime;
         this.mBitmap = mBitmap;
     }
@@ -26,9 +23,6 @@ public class FormImg {
         mName = name;
     }
 
-    public void setFileName(String fileName){
-        mFileName = fileName;
-    }
 
     public void setmMime(String Mime){
         mMime = Mime;
@@ -37,7 +31,7 @@ public class FormImg {
     public String getName() {
 //        return mName;
 //测试，把参数名称写死
-        return "uploadimg" ;
+        return mName ;
     }
 
     public String getFileName() {
@@ -54,4 +48,6 @@ public class FormImg {
     public String getMime() {
         return "image/png";
     }
+
+    public Bitmap getmBitmap(){ return  mBitmap;}
 }
