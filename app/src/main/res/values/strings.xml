@@ -4,6 +4,9 @@
     <string name="tab_text_1">Tab 1</string>
     <string name="tab_text_2">Tab 2</string>
 
+    <string name="toastForNone1">呐，才不要什么都不输入呢!></string>
+    <string name="toastForNone2">就算是输入空格也没有用的呢</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_basic">basic</string>

@@ -38,6 +38,10 @@ public class FormImg {
         //测试，直接写死文件的名字
         return "test.png";
     }
+
+    public void Rename(String rename){this.mName = rename;}
+
+
     //对图片进行二进制转换
     public byte[] getValue() {
         ByteArrayOutputStream bos = new ByteArrayOutputStream() ;

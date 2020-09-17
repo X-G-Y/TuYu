@@ -353,8 +353,8 @@ public class Fragment2 extends Fragment implements MyRecyclerviewAdapter.Recycle
                         }
                         else if (editText.length() == 0 && editTextIsEmpty){
                             //期望是dialog的动态刷新，目前以Toast的方式提示用户
-                            Toast.makeText(basic.myActivity, "呐，才不要什么都不输入呢！", Toast.LENGTH_SHORT).show();
-                            Toast.makeText(basic.myActivity, "就算是输入空格也没有用的呢",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(basic.myActivity, R.string.toastForNone1, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(basic.myActivity, R.string.toastForNone2,Toast.LENGTH_SHORT).show();
                         }
                         else if (IsExact(editText)){
                             Toast.makeText(basic.myActivity, "分类已存在",Toast.LENGTH_SHORT).show();
@@ -493,8 +493,8 @@ public class Fragment2 extends Fragment implements MyRecyclerviewAdapter.Recycle
                                 //先判断命名是否已经存在
                                 if (editText.length() == 0 && editTextIsEmpty) {
                                     //期望是dialog的动态刷新，目前以Toast的方式提示用户
-                                    Toast.makeText(basic.myActivity, "呐，才不要什么都不输入呢！", Toast.LENGTH_SHORT).show();
-                                    Toast.makeText(basic.myActivity, "就算是输入空格也没有用的呢", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(basic.myActivity, R.string.toastForNone1, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(basic.myActivity, R.string.toastForNone2, Toast.LENGTH_SHORT).show();
                                 } else if (IsExact(editText)) {
                                     Toast.makeText(basic.myActivity, "分类已存在", Toast.LENGTH_SHORT).show();
                                 } else {

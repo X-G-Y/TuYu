@@ -4,11 +4,15 @@ import android.content.ClipData;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +23,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.qmuiteam.qmui.skin.QMUISkinManager;
 import com.qmuiteam.qmui.util.QMUIDisplayHelper;
+import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
+import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
 import com.qmuiteam.qmui.widget.popup.QMUIPopups;
 import com.qmuiteam.qmui.widget.popup.QMUIQuickAction;
 
@@ -92,7 +98,7 @@ public class DocumentActivity extends AppCompatActivity {
             @Override
             public void onItemLongClick(View view, int position) {
                 Toast.makeText(DocumentActivity.this, "没开始写", Toast.LENGTH_SHORT).show();
-                ShowPops(view);
+                ShowPops(view, position);
             }
         });
 
@@ -100,7 +106,7 @@ public class DocumentActivity extends AppCompatActivity {
         myRecyclerviewAdapter.setOnItemClickListener(new RecyclerViewAdapterForPicture.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                //todo
+                ShowBigPicture(listAll.get(position).getmBitmap());
                 Toast.makeText(DocumentActivity.this, "没开始写", Toast.LENGTH_SHORT).show();
             }
         });
@@ -145,7 +151,7 @@ public class DocumentActivity extends AppCompatActivity {
 
 
 
-    protected void ShowPops(View v){
+    protected void ShowPops(View v,int pos){
         QMUIPopups.quickAction(getBaseContext(),
                 QMUIDisplayHelper.dp2px(getBaseContext(), 56),
                 QMUIDisplayHelper.dp2px(getBaseContext(), 56))
@@ -161,12 +167,14 @@ public class DocumentActivity extends AppCompatActivity {
                             }
                         }
                 ))
-                .addAction(new QMUIQuickAction.Action().icon(R.drawable.icon_quick_action_copy).text("修改文字").onClick(
+                .addAction(new QMUIQuickAction.Action().icon(R.drawable.icon_quick_action_copy).text("重命名").onClick(
                         new QMUIQuickAction.OnClickListener() {
                             @Override
                             public void onClick(QMUIQuickAction quickAction, QMUIQuickAction.Action action, int position) {
                                 quickAction.dismiss();
+                                showRenameDialog(pos);
                                 Toast.makeText(getBaseContext(), "修改成功", Toast.LENGTH_SHORT).show();
+
                             }
                         }
                 ))
@@ -251,6 +259,54 @@ public class DocumentActivity extends AppCompatActivity {
 
         }
 
+    }
+
+    //设置重命名时候的dialog
+    public void showRenameDialog(final int position){
+        String text = listAll.get(position).getName();
+        final QMUIDialog.EditTextDialogBuilder builder = new QMUIDialog.EditTextDialogBuilder(this);
+        builder.setTitle("修改关键字")
+                .setPlaceholder(text)
+                //设置点击外部时dialog是否关闭
+                .setCanceledOnTouchOutside(true)
+                .setInputType(InputType.TYPE_CLASS_TEXT)
+                .addAction("确认", new QMUIDialogAction.ActionListener() {
+                    @Override
+                    public void onClick(QMUIDialog dialog, int index) {
+                        CharSequence editText = builder.getEditText().getText();
+                        //先判断命名是否已经存在
+                        if (editText.length() == 0 ) {
+                            //期望是dialog的动态刷新，目前以Toast的方式提示用户
+                            Toast.makeText(basic.myActivity, R.string.toastForNone1, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(basic.myActivity, R.string.toastForNone2, Toast.LENGTH_SHORT).show();
+                        } else {
+                            listAll.get(position).Rename(editText.toString());
+                            myRecyclerviewAdapter.notifyItemChanged(position);
+                            //实时保存数据
+                            dialog.dismiss();
+                        }
+                    }
+                })
+
+                .addAction("取消", new QMUIDialogAction.ActionListener() {
+
+                    @Override
+                    public void onClick(QMUIDialog dialog, int index) {
+                        dialog.dismiss();
+                    }
+                })
+                .show();
+        return ;
+    }
+
+
+    //单击照片查看大图
+    private void ShowBigPicture(Bitmap bitmap){
+        Drawable drawable = new BitmapDrawable(bitmap);
+        final QMUIDialog.CustomDialogBuilder customDialogBuilder = new QMUIDialog.CustomDialogBuilder(this);
+        customDialogBuilder.setLayout(R.layout.showbigpicture);
+        ImageButton imageView = findViewById(R.id.showit);
+        imageView.setImageDrawable(drawable);
     }
 
 
