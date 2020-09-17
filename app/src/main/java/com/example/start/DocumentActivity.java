@@ -33,7 +33,6 @@ public class DocumentActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RecyclerViewAdapterForPicture myRecyclerviewAdapter;
     private List<FormImg> listAll = new ArrayList<>();
-    ZoomImageView test = findViewById(R.id.test);
 
 
 
