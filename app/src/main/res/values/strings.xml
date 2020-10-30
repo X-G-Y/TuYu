@@ -48,4 +48,8 @@
     <string name="password2_register">请确认密码</string>
     <string name="register_button">注册</string>
     <string name="back_button">返回</string>
+    <string name="title_activity_show_big_picture">MainActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
 </resources>

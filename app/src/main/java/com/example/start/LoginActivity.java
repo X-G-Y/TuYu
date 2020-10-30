@@ -27,7 +27,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.example.start.RegisterActivity.LOGIN;
+import static com.example.start.PostUploadRequest.RegisterActivity.LOGIN;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -98,7 +98,7 @@ public class LoginActivity extends AppCompatActivity {
         registerButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
+                Intent intent = new Intent(getApplicationContext(), PostUploadRequest.RegisterActivity.class);
                 startActivity(intent);
             }
         });
@@ -106,7 +106,7 @@ public class LoginActivity extends AppCompatActivity {
         visitorButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), basic.class);
+                Intent intent = new Intent(getApplicationContext(), com.example.start.Activity.basic.class);
                 startActivity(intent);
             }
         });
@@ -142,7 +142,7 @@ public class LoginActivity extends AppCompatActivity {
                             JSONObject jsonObject = (JSONObject) new JSONObject(response).get("params");  //注③
                             String result = jsonObject.getString("Result");  //注④
                             if (result.equals("success")) {  //注⑤
-                                Intent intent = new Intent(getApplicationContext(), basic.class);
+                                Intent intent = new Intent(getApplicationContext(), com.example.start.Activity.basic.class);
                                 startActivity(intent);
                             } else {
                                 Toast.makeText(getApplicationContext(), "账号或密码错误", Toast.LENGTH_SHORT).show();

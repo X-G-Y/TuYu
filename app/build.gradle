@@ -52,6 +52,13 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
 
+    //glide
+    implementation 'com.github.bumptech.glide:glide:4.9.0'
+    implementation files('libs\\open_sdk_r0bd7cf8_lite.jar')
+    compile 'com.github.chrisbanes.photoview:library:+'
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+
+
     //QMUI
 
     implementation 'com.qmuiteam:qmui:2.0.0-alpha10'
@@ -100,6 +107,8 @@ dependencies {
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    implementation 'com.rmtheis:tess-two:9.0.0'
+
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
 }
