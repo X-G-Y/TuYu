@@ -27,15 +27,7 @@
         android:layout_gravity="bottom"
         android:layout_height="0dp">
 
-        <ImageButton
-            android:id="@+id/Social"
-            android:layout_width="133dp"
-            android:layout_height="match_parent"
-            android:background="#00FF0000"
-            android:layout_weight="1"
-            android:scaleType="centerCrop"
-            android:padding="40dp"
-            android:src="@drawable/tab_social" />
+
 
         <ImageButton
             android:id="@+id/User"
@@ -44,13 +36,13 @@
             android:background="#00FF0000"
             android:scaleType="centerCrop"
             android:layout_weight="1"
-            android:padding="40dp"
+            android:padding="67dp"
             android:src="@drawable/tab_user" />
 
         <ImageButton
             android:id="@+id/Settings"
             android:layout_width="133dp"
-            android:padding="40dp"
+            android:padding="67dp"
             android:layout_height="match_parent"
             android:background="#00FF0000"
             android:layout_weight="1"

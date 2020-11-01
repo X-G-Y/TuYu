@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.start">
+    package="com.example.ihitsz">
     <!-- 获取手机存储卡权限 -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- 添加网络访问权限 -->
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.INTERNET" /><!-- TENCENT-->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
-
 
     <application
         android:name=".MyApplication"
@@ -21,23 +18,21 @@
         android:supportsRtl="true"
         android:theme="@style/AppCompatTheme"
         tools:replace="android:label">
-
+        <activity android:name=".Countcenter"></activity>
+        <activity android:name=".About" />
+        <activity android:name=".Call" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="ihitsz.xyz"
-            android:grantUriPermissions="true"
-            android:exported="false">
+            android:exported="false"
+            android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/filepaths"/>
+                android:resource="@xml/filepaths" />
         </provider>
 
-
-
-        <activity android:name=".Activity.ShowBigPicture"></activity>
-
-
+        <activity android:name=".Activity.ShowBigPicture" />
 
         <uses-library
             android:name="org.apache.http.legacy"
@@ -47,6 +42,7 @@
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -54,7 +50,6 @@
             android:name=".Activity.DocumentActivity"
             android:parentActivityName="Activity.basic"> <!-- SearchActivity是点击搜索按钮之后显示的搜索界面，它的父ParentActivity是basic -->
         </activity>
-
         <activity
             android:name=".Activity.SearchActivity"
             android:parentActivityName="Activity.basic" />
@@ -62,25 +57,24 @@
             android:name=".Activity.basic"
             android:label="@string/title_activity_basic"
             android:theme="@style/AppCompatTheme" />
-
         <activity
             android:name="com.tencent.tauth.AuthActivity"
-            android:noHistory="true"
-            android:launchMode="singleTask" >
+            android:launchMode="singleTask"
+            android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="tencent1111062225" />
+
+                <data android:scheme="tencent1111138164" />
             </intent-filter>
         </activity>
-
         <activity
             android:name="com.tencent.connect.common.AssistActivity"
+            android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="behind"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:configChanges="orientation|keyboardHidden">
-        </activity>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
     </application>
 
 </manifest>

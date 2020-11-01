@@ -39,31 +39,9 @@
 
         </ImageButton>
 
-        <ImageButton
-            android:id="@+id/UserStar"
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
-            android:alpha="1"
-            android:layout_toLeftOf="@id/UserDownload"
-            android:background="@color/lavender"
-            android:padding="10dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/starpng">
 
-        </ImageButton>
 
-        <ImageButton
-            android:id="@+id/UserDownload"
-            android:layout_width="50dp"
-            android:alpha="1"
-            android:layout_height="match_parent"
-            android:layout_toLeftOf="@id/Search"
-            android:background="@color/lavender"
-            android:padding="10dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/download">
 
-        </ImageButton>
 
 
     </RelativeLayout>
